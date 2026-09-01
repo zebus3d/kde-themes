@@ -1,0 +1,92 @@
+# ============================================================================
+#  CarlSlim - fork propio de "Carl" (creado 2026-09-01)
+# ============================================================================
+#
+#  PROBLEMA
+#  --------
+#  En "Carl" el borde inferior de las ventanas se veia mucho mas grueso que
+#  los bordes laterales: 6 px abajo frente a 2 px a los lados. El original
+#  traia BorderBottom=7 y PaddingBottom=90.
+#
+#  Resulta que el grosor visible de abajo NO sale solo de BorderBottom. El
+#  archivo decoration.svg pinta una banda oscura opaca DENTRO de la zona de
+#  padding (la que en teoria se reserva para la sombra). Esa banda se desplaza
+#  verticalmente segun el valor de PaddingBottom, asi que se cuela por debajo
+#  del marco de la ventana y se suma al borde real. Por eso tocar solo
+#  BorderBottom no arreglaba nada.
+#
+#  SOLUCION
+#  --------
+#  Hay que ajustar DOS valores a la vez, mas abajo en la seccion [Layout]:
+#    BorderBottom   7  -> 2   (borde real, igual que BorderLeft/BorderRight)
+#    PaddingBottom  90 -> 86  (recorta la banda oscura del SVG)
+#
+#  PaddingBottom esta calibrado a mano midiendo pixeles en pantalla:
+#    90 -> 6 px oscuros abajo    88 -> 4 px
+#    86 -> 2 px (correcto, igual que los lados)
+#    84 o menos -> el borde inferior desaparece del todo
+#  Si algun dia cambias BorderBottom, hay que recalibrar PaddingBottom.
+#
+#  AL PROBAR CAMBIOS, OJO CON DOS TRAMPAS
+#  --------------------------------------
+#  1. KWin CACHEA este archivo en memoria. Ejecutar
+#         qdbus6 org.kde.KWin /KWin reconfigure
+#     NO vuelve a leerlo. Hay que cambiar a otro tema y volver:
+#         kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 \
+#             --key theme __aurorae__svg__Carl
+#         qdbus6 org.kde.KWin /KWin reconfigure
+#         kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 \
+#             --key theme __aurorae__svg__CarlSlim
+#         qdbus6 org.kde.KWin /KWin reconfigure
+#
+#  2. El ajuste global de KDE "Tamano de borde" (kwinrc, grupo
+#     org.kde.kdecoration2, clave BorderSize) RECORTA estos valores. Con
+#     BorderSize=Tiny el tope es 4 px: da igual que aqui pongas 25. Estos
+#     valores estan pensados para BorderSize=Tiny.
+#
+#  El tema original "Carl" queda sin tocar, por si hace falta volver a el.
+# ============================================================================
+
+[General]
+ActiveTextColor=201,201,205,255
+InactiveTextColor=149,165,166,255
+TitleAlignment=Center
+TitleVerticalAlignment=Center
+UseTextShadow=true
+ActiveTextShadowColor=255,255,255,255
+InactiveTextShadowColor=255,255,255,255
+TextShadowOffsetX=0             
+TextShadowOffsetY=1 
+LeftButtons=XIA
+Shadow=true
+Animation=1
+
+[Layout]
+BorderLeft=2
+BorderRight=2
+# CAMBIADO: el original traia 7. Va junto con PaddingBottom, ver cabecera.
+BorderBottom=2
+TitleEdgeTop=4
+TitleEdgeBottom=4
+TitleEdgeLeft=7
+TitleEdgeRight=7
+TitleBorderLeft=3
+TitleBorderRight=3
+TitleHeight=15
+ButtonWidth=12
+ButtonHeight=12
+ButtonSpacing=8
+ButtonMarginTop=2
+ButtonMarginLeft=3
+ExplicitButtonSpacer=0
+PaddingTop=35
+# CAMBIADO: el original traia 90. Recorta la banda oscura que el SVG pinta
+# por debajo del marco. 86 deja 2 px, igual que los lados. Ver cabecera.
+PaddingBottom=86
+PaddingRight=76
+PaddingLeft=76
+TitleEdgeTopMaximized=4
+TitleEdgeBottomMaximized=4
+TitleEdgeLeftMaximized=4
+TitleEdgeRightMaximized=4
+

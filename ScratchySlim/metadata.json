@@ -1,0 +1,24 @@
+{
+    "KPackageStructure": "KWin/Aurorae",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "gicalucejo@gmail.com",
+                "Name": "jomada"
+            }
+        ],
+        "Category": "Plasma 6 Window Decorations",
+        "ServiceTypes": [
+            "KWin/Aurorae"
+        ],
+        "EnabledByDefault": true,
+        "Name": "ScratchySlim",
+        "Description": "Fork con el borde inferior igualado a los laterales (BorderBottom=2, PaddingBottom=86). Ver README.md",
+        "Id": "ScratchySlim",
+        "Version": "1.5",
+        "License": "GPL_V3",
+        "X-KDE-PluginInfo-blur": false,
+        "X-KPackage-Dependencies": [
+        ]
+    }
+}
