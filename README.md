@@ -1,15 +1,17 @@
 # Aurorae Slim Themes
 
-Forks of the **Carl** and **Scratchy** Aurorae window decorations for KDE Plasma,
-with the bottom window border fixed so it matches the side borders.
+**What this fixes:** on the original **Carl** and **Scratchy** Aurorae window
+decorations, the bottom border of every window is drawn about three times
+thicker than the side borders (6 px against 2 px), which makes windows look
+bottom-heavy. These forks make the bottom border match the sides. Nothing else
+changes: same artwork, same colors, same buttons, same title bar.
 
-Original themes by **jomada** (gicalucejo@gmail.com), licensed GPL v3.
-These forks keep the same license. All artwork is unchanged, only two layout
-values were touched.
+![before and after](docs/before-after.png)
+
+Original themes by **jomada** (gicalucejo@gmail.com), licensed GPL v3. These
+forks keep the same license. No artwork was modified, only two layout values.
 
 *(Version en castellano mas abajo.)*
-
-![problem](docs/before-after.png)
 
 ## The problem
 
@@ -99,8 +101,11 @@ KDE Plasma 6 on Wayland, Arch Linux, `BorderSize=Tiny`, display scale 1.
 
 # En castellano
 
-Forks de las decoraciones de ventana **Carl** y **Scratchy** para KDE Plasma, con
-el borde inferior arreglado para que sea igual que los laterales.
+**Que arregla:** en los temas originales **Carl** y **Scratchy** el borde
+inferior de las ventanas se dibuja unas tres veces mas grueso que los laterales,
+6 px frente a 2 px, y las ventanas quedan como cargadas por abajo. Estos forks
+igualan el borde de abajo al de los lados. No cambia nada mas: mismo dibujo,
+mismos colores, mismos botones, misma barra de titulo.
 
 ## El problema
 
