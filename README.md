@@ -116,6 +116,61 @@ journalctl --user -b --since "-20s" | grep BORDERS
 That gives the real frame border. The SVG band sits outside it and only shows up
 when you measure pixels on a full-screen capture.
 
+## Repository layout
+
+```
+aurorae/CarlSlim            window decoration
+aurorae/ScratchySlim        window decoration
+desktoptheme/Carl-custom    plasma style
+install.sh                  copies all three into ~/.local/share
+reload.sh                   reloads them after an edit
+```
+
+Each theme folder carries its own README with the full diagnosis of what was
+changed and why.
+
+## Working on these themes
+
+The two caches are the thing that wastes time here. KWin keeps the decoration's
+rc file in memory, and Plasma keeps a compiled cache of the style, so editing a
+file and looking at the screen tells you nothing. `reload.sh` handles both:
+
+```bash
+./reload.sh          # reload both
+./reload.sh kwin     # only the window decoration
+./reload.sh plasma   # only the Plasma style
+```
+
+For the decoration it switches to another theme and back, which is what actually
+forces KWin to re-read the file. For the style it clears
+`~/.cache/plasma_theme_*.kcache` and restarts the shell.
+
+### Editing in place
+
+You can point the system at a clone instead of copying files, so that editing
+the repository *is* editing the live theme:
+
+```bash
+git clone git@github.com:zebus3d/aurorae-slim-themes.git ~/github/aurorae-slim-themes
+cd ~/.local/share/aurorae/themes
+ln -s ~/github/aurorae-slim-themes/aurorae/CarlSlim CarlSlim
+ln -s ~/github/aurorae-slim-themes/aurorae/ScratchySlim ScratchySlim
+cd ~/.local/share/plasma/desktoptheme
+ln -s ~/github/aurorae-slim-themes/desktoptheme/Carl-custom Carl-custom
+```
+
+Both KWin and Plasma follow the symlinks without complaining. Then the loop is
+edit, `./reload.sh`, and commit when you like the result.
+
+Note that the Plasma style ships `.svgz` files, which are gzipped SVG. To edit
+one:
+
+```bash
+zcat widgets/panel-background.svgz > /tmp/x.svg
+# edit /tmp/x.svg
+gzip -9 < /tmp/x.svg > widgets/panel-background.svgz
+```
+
 ## Tested on
 
 KDE Plasma 6 on Wayland, Arch Linux, `BorderSize=Tiny`, display scale 1.
@@ -175,6 +230,22 @@ panel vive en el archivo `colors`, clave `BackgroundNormal` del grupo `Window`.
 Cambiar los valores hexadecimales dentro de `widgets/panel-background.svgz` no
 se nota, porque esos elementos usan `fill="currentColor"` y Plasma resuelve el
 color desde `colors` en tiempo de ejecucion.
+
+## Trabajar sobre estos temas
+
+Las dos caches son lo que hace perder el tiempo aqui: KWin guarda en memoria el
+rc de la decoracion y Plasma guarda una cache compilada del estilo, asi que
+editar un archivo y mirar la pantalla no dice nada. `reload.sh` se encarga:
+
+```bash
+./reload.sh          # recarga los dos
+./reload.sh kwin     # solo la decoracion de ventana
+./reload.sh plasma   # solo el estilo de Plasma
+```
+
+Puedes apuntar el sistema a un clon con enlaces simbolicos, y asi editar el
+repositorio es editar el tema en vivo. Los archivos `.svgz` del estilo son SVG
+comprimidos con gzip: `zcat` para abrirlos y `gzip -9` para volver a guardarlos.
 
 ## Creditos y licencias
 
