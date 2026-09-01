@@ -1,4 +1,9 @@
-# Aurorae Slim Themes
+# KDE Carl themes, fixed
+
+Forks of the **Carl** and **Scratchy** themes for KDE Plasma by jomada, with a
+few things fixed. Two Aurorae window decorations and one Plasma style.
+
+## Window decorations: CarlSlim and ScratchySlim
 
 **What this fixes:** on the original **Carl** and **Scratchy** Aurorae window
 decorations, the bottom border of every window is drawn about three times
@@ -8,12 +13,12 @@ changes: same artwork, same colors, same buttons, same title bar.
 
 ![before and after](docs/before-after.png)
 
-Original themes by **jomada** (gicalucejo@gmail.com), licensed GPL v3. These
-forks keep the same license. No artwork was modified, only two layout values.
+No artwork was modified, only two layout values. Full details in
+[`aurorae/CarlSlim/README.md`](aurorae/CarlSlim/README.md).
 
 *(Version en castellano mas abajo.)*
 
-## The problem
+### The problem
 
 On these themes the bottom border of every window looks much thicker than the
 side borders: 6 px at the bottom against 2 px at the sides.
@@ -24,7 +29,7 @@ hold the drop shadow. That band shifts vertically with `PaddingBottom`, so it
 spills below the window frame and adds to the real border. This is why lowering
 `BorderBottom` on its own changes nothing you can see.
 
-## The fix
+### The fix
 
 Two values in the `[Layout]` section of the theme's rc file:
 
@@ -46,6 +51,23 @@ Two values in the `[Layout]` section of the theme's rc file:
 
 If you change `BorderBottom`, you have to recalibrate `PaddingBottom`.
 
+## Plasma style: Carl-custom
+
+A fork of the **Carl** Plasma style with a lighter background than the original,
+which was almost black. Two changes:
+
+- The theme background went from `#111216` to `#24272d`, across the `colors`
+  file and ten SVG files. This affects popups, tooltips and dialogs too, not
+  only the panel.
+- The panel gray was then set to `#1c1f24`. Dark, but deliberately not black.
+
+One trap worth knowing: **the panel color lives in the `colors` file**, key
+`BackgroundNormal` of the `Window` group. Editing the hex values inside
+`widgets/panel-background.svgz` does nothing visible, because those elements are
+declared `fill="currentColor"` and Plasma resolves their color from `colors` at
+runtime. Full details in
+[`desktoptheme/Carl-custom/README.md`](desktoptheme/Carl-custom/README.md).
+
 ## Install
 
 ```bash
@@ -54,13 +76,14 @@ cd aurorae-slim-themes
 ./install.sh
 ```
 
-Then pick **CarlSlim** or **ScratchySlim** in
-*System Settings > Colors & Themes > Window Decorations*.
+Then pick them in *System Settings > Colors & Themes*: **CarlSlim** or
+**ScratchySlim** under *Window Decorations*, and **Carl-custom** under
+*Plasma Style*.
 
-The installer only copies into `~/.local/share/aurorae/themes/`. It does not
-touch the original themes, so you can switch back at any time.
+The installer only copies into `~/.local/share/`. It does not touch the original
+themes, so you can switch back at any time.
 
-## Two traps when tweaking these files
+### Two traps when tweaking the decorations
 
 **1. KWin caches the theme rc in memory.** Running
 `qdbus6 org.kde.KWin /KWin reconfigure` does *not* re-read it. You have to
@@ -76,7 +99,7 @@ sw Breeze; sw CarlSlim
 the cap is 4 px, so writing 25 in the theme does nothing. These forks are tuned
 for `BorderSize=Tiny`.
 
-## Measuring borders properly
+### Measuring borders properly
 
 Eyeballing a screenshot is misleading, mostly because the SVG band falls
 *outside* the window frame. Ask KWin instead, comparing `frameGeometry` with
@@ -101,13 +124,18 @@ KDE Plasma 6 on Wayland, Arch Linux, `BorderSize=Tiny`, display scale 1.
 
 # En castellano
 
+Forks de los temas **Carl** y **Scratchy** de jomada para KDE Plasma. Dos
+decoraciones de ventana y un estilo de Plasma.
+
+## Decoraciones de ventana: CarlSlim y ScratchySlim
+
 **Que arregla:** en los temas originales **Carl** y **Scratchy** el borde
 inferior de las ventanas se dibuja unas tres veces mas grueso que los laterales,
 6 px frente a 2 px, y las ventanas quedan como cargadas por abajo. Estos forks
 igualan el borde de abajo al de los lados. No cambia nada mas: mismo dibujo,
 mismos colores, mismos botones, misma barra de titulo.
 
-## El problema
+### El problema
 
 El borde de abajo se ve mucho mas grueso que los de los lados: 6 px frente a
 2 px. La causa no es solo `BorderBottom`. El archivo `decoration.svg` pinta una
@@ -116,7 +144,7 @@ para la sombra. Esa banda se desplaza segun `PaddingBottom`, se cuela por debajo
 del marco y se suma al borde real. Por eso bajar solo `BorderBottom` no cambia
 nada visible.
 
-## La solucion
+### La solucion
 
 Dos valores en la seccion `[Layout]`: `BorderBottom` de 7 a 2, y `PaddingBottom`
 de 90 a 86. El 86 esta calibrado midiendo pixeles: con 88 quedan 4 px, con 84 o
@@ -133,12 +161,26 @@ cd aurorae-slim-themes
 Luego elige **CarlSlim** o **ScratchySlim** en *Preferencias del sistema >
 Colores y temas > Decoraciones de ventana*. Los temas originales no se tocan.
 
-## Dos trampas al probar cambios
+### Dos trampas al probar cambios
 
 KWin **cachea** el rc del tema, asi que `reconfigure` no basta: hay que cambiar a
 otro tema y volver. Y el ajuste global **Tamano de borde** de KDE recorta estos
 valores, con tope de 4 px cuando esta en `Tiny`.
 
-## Creditos
+## Estilo de Plasma: Carl-custom
 
-Temas originales de **jomada**. Publicados bajo GPL v3, igual que estos forks.
+Fork del estilo **Carl** con el fondo mas claro que el original, que era casi
+negro, y el gris del panel fijado en `#1c1f24`. Ojo con una trampa: el color del
+panel vive en el archivo `colors`, clave `BackgroundNormal` del grupo `Window`.
+Cambiar los valores hexadecimales dentro de `widgets/panel-background.svgz` no
+se nota, porque esos elementos usan `fill="currentColor"` y Plasma resuelve el
+color desde `colors` en tiempo de ejecucion.
+
+## Creditos y licencias
+
+Temas originales de **jomada** (gicalucejo@gmail.com).
+
+- Las decoraciones de ventana **CarlSlim** y **ScratchySlim** heredan la
+  **GPL v3** del tema original: ver `LICENSES-GPL-3.0.txt`.
+- El estilo de Plasma **Carl-custom** hereda la **LGPL** del tema original: ver
+  `LICENSES-LGPL-3.0.txt`.

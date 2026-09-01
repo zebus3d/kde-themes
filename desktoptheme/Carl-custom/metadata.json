@@ -1,0 +1,19 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "gicalucejo@gmail.com",
+                "Name": "jomada"
+            }
+        ],
+        "Category": "",
+        "Description": "Carl-custom for Plasma (lighter panel)",
+        "EnabledByDefault": true,
+        "Id": "Carl-custom",
+        "License": "LGPL",
+        "Name": "Carl-custom",
+        "Version": "2.5",
+        "Website": "https://seduccionlinux.wordpress.com"
+    },
+    "X-Plasma-API": "5.0"
+}
