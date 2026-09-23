@@ -215,16 +215,29 @@ the repository *is* editing the live theme:
 
 ```bash
 git clone git@github.com:zebus3d/kde-themes.git ~/github/kde-themes
+R=~/github/kde-themes
+
 cd ~/.local/share/aurorae/themes
-ln -s ~/github/kde-themes/aurorae/CarlSlim CarlSlim
-ln -s ~/github/kde-themes/aurorae/ScratchySlim ScratchySlim
-ln -s ~/github/kde-themes/aurorae/DarkOne DarkOne
+ln -s "$R/aurorae/CarlSlim" CarlSlim
+ln -s "$R/aurorae/ScratchySlim" ScratchySlim
+ln -s "$R/aurorae/DarkOne" DarkOne
+
 cd ~/.local/share/plasma/desktoptheme
-ln -s ~/github/kde-themes/desktoptheme/Carl-custom Carl-custom
+ln -s "$R/desktoptheme/Carl-custom" Carl-custom
+ln -s "$R/desktoptheme/DarkOne" DarkOne
+
+cd ~/.local/share/color-schemes
+ln -s "$R/color-schemes/DarkOne.colors" DarkOne.colors
+ln -s "$R/color-schemes/Zebus3d.colors" Zebus3d.colors
 ```
 
 Both KWin and Plasma follow the symlinks without complaining. Then the loop is
 edit, `./reload.sh`, and commit when you like the result.
+
+**If you ever rename or move the clone, fix the symlinks**, or KWin/Plasma lose
+the theme (the link points at a path that no longer exists) and it disappears
+from System Settings without any error. Re-run the `ln -s` block above with the
+new path.
 
 Note that the Plasma style ships `.svgz` files, which are gzipped SVG. To edit
 one:
@@ -382,8 +395,28 @@ editar un archivo y mirar la pantalla no dice nada. `reload.sh` se encarga:
 ```
 
 Puedes apuntar el sistema a un clon con enlaces simbolicos, y asi editar el
-repositorio es editar el tema en vivo. Los archivos `.svgz` del estilo son SVG
-comprimidos con gzip: `zcat` para abrirlos y `gzip -9` para volver a guardarlos.
+repositorio es editar el tema en vivo:
+
+```bash
+R=~/github/kde-themes
+cd ~/.local/share/aurorae/themes
+ln -s "$R/aurorae/CarlSlim" CarlSlim
+ln -s "$R/aurorae/ScratchySlim" ScratchySlim
+ln -s "$R/aurorae/DarkOne" DarkOne
+cd ~/.local/share/plasma/desktoptheme
+ln -s "$R/desktoptheme/Carl-custom" Carl-custom
+ln -s "$R/desktoptheme/DarkOne" DarkOne
+cd ~/.local/share/color-schemes
+ln -s "$R/color-schemes/DarkOne.colors" DarkOne.colors
+ln -s "$R/color-schemes/Zebus3d.colors" Zebus3d.colors
+```
+
+**Si renombras o mueves el clon, arregla los enlaces**: KWin/Plasma pierden el
+tema (el enlace apunta a una ruta que ya no existe) y desaparece de Preferencias
+sin ningun error. Vuelve a lanzar el bloque de `ln -s` con la ruta nueva.
+
+Los archivos `.svgz` del estilo son SVG comprimidos con gzip: `zcat` para
+abrirlos y `gzip -9` para volver a guardarlos.
 
 ## Creditos y licencias
 
