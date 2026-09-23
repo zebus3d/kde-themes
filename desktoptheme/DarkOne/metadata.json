@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "zebus3d"
+            }
+        ],
+        "Category": "",
+        "Description": "DarkOne (E16) for Plasma",
+        "EnabledByDefault": true,
+        "Id": "DarkOne",
+        "License": "LGPL",
+        "Name": "DarkOne",
+        "Version": "2.5",
+        "Website": "https://seduccionlinux.wordpress.com"
+    },
+    "X-Plasma-API": "5.0"
+}

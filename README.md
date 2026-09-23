@@ -10,6 +10,7 @@ fixed; one (**DarkOne**) is a port from Enlightenment 16.
 | `aurorae/ScratchySlim` | window decoration | Scratchy fork, same fix |
 | `aurorae/DarkOne` | window decoration | port of the DarkOne theme from Enlightenment 16 |
 | `desktoptheme/Carl-custom` | Plasma style | Carl fork with a lighter background |
+| `desktoptheme/DarkOne` | Plasma style | Carl-custom re-coloured to the DarkOne palette |
 | `color-schemes/DarkOne.colors` | color scheme | greys and red of the DarkOne theme |
 | `color-schemes/Zebus3d.colors` | color scheme | dark scheme with a blue focus accent |
 
@@ -82,7 +83,18 @@ is driven by the rc and not by the SVG, maximized windows paint only the centre
 corners must be mitered or a bevel spike shows up. That theme also ships the
 `generate.py` that produced it.
 
-## Plasma style: Carl-custom
+## Plasma styles
+
+### DarkOne
+
+A first pass at a Plasma style to go with the DarkOne decoration and color
+scheme. It starts from Carl-custom and **re-colours** it to the DarkOne palette:
+backgrounds to the DarkOne greys (`#2b2b2b`, `#1a1a1a`), text to `#d2d2d2` and
+the blue/purple accents to the DarkOne red (`#a41313`). The shapes are still
+Carl's, not E16's; the panel and popups are not redrawn with the DarkOne bevel
+yet. It is a starting point, not a finished port.
+
+### Carl-custom
 
 A fork of the **Carl** Plasma style with a lighter background than the original,
 which was almost black. Two changes:
@@ -125,7 +137,7 @@ cd kde-themes
 
 Then pick them in *System Settings > Colors & Themes*: **CarlSlim**,
 **ScratchySlim** or **DarkOne** under *Window Decorations*, **Carl-custom**
-under *Plasma Style*, and **DarkOne** or **Zebus3d** under *Colors*.
+or **DarkOne** under *Plasma Style*, and **DarkOne** or **Zebus3d** under *Colors*.
 
 The installer only copies into `~/.local/share/`. It does not touch the original
 themes, so you can switch back at any time.
@@ -169,7 +181,8 @@ when you measure pixels on a full-screen capture.
 aurorae/CarlSlim              window decoration
 aurorae/ScratchySlim          window decoration
 aurorae/DarkOne               window decoration (port from Enlightenment 16)
-desktoptheme/Carl-custom      plasma style
+desktoptheme/Carl-custom      plasma style (Carl)
+desktoptheme/DarkOne          plasma style (DarkOne)
 color-schemes/DarkOne.colors  color scheme (DarkOne)
 color-schemes/Zebus3d.colors  color scheme (Carl)
 install.sh                    copies all of them into ~/.local/share
@@ -252,6 +265,7 @@ algunas cosas arregladas; uno (**DarkOne**) es un port de Enlightenment 16.
 | `aurorae/ScratchySlim` | decoracion | fork de Scratchy, mismo arreglo |
 | `aurorae/DarkOne` | decoracion | port del tema DarkOne de Enlightenment 16 |
 | `desktoptheme/Carl-custom` | estilo de Plasma | fork de Carl con el fondo mas claro |
+| `desktoptheme/DarkOne` | estilo de Plasma | Carl-custom recoloreado a la paleta DarkOne |
 | `color-schemes/DarkOne.colors` | esquema de color | grises y rojo del tema DarkOne |
 | `color-schemes/Zebus3d.colors` | esquema de color | oscuro, con acento azul |
 
@@ -300,7 +314,18 @@ fija el rc y no el SVG, al maximizar Aurorae pinta solo el centro (sin
 `decoration-maximized` la barra sale negra) y las esquinas inferiores van a
 inglete o sale un pico. Ese tema incluye ademas el `generate.py` que lo genero.
 
-## Estilo de Plasma: Carl-custom
+## Estilos de Plasma
+
+### DarkOne
+
+Primer pase de un estilo de Plasma para acompasar la decoracion y el esquema
+DarkOne. Parte de Carl-custom y lo **recolorea** a la paleta DarkOne: fondos a
+los grises DarkOne (`#2b2b2b`, `#1a1a1a`), texto a `#d2d2d2` y los acentos
+azul/morado al rojo DarkOne (`#a41313`). Las formas siguen siendo las de Carl,
+no las de E16; el panel y los popups todavia no llevan el bisel DarkOne. Es un
+punto de partida, no un port terminado.
+
+### Carl-custom
 
 Fork del estilo **Carl** con el fondo mas claro que el original, que era casi
 negro, y el gris del panel fijado en `#1c1f24`. Ojo con una trampa: el color del
@@ -335,8 +360,8 @@ cd kde-themes
 
 Luego elige **CarlSlim**, **ScratchySlim** o **DarkOne** en *Preferencias del
 sistema > Colores y temas > Decoraciones de ventana*, **Carl-custom** en *Estilo
-de Plasma* y **DarkOne** o **Zebus3d** en *Colores*. Los temas originales no se
-tocan.
+de Plasma* (o **DarkOne** en *Estilo de Plasma*) y **DarkOne** o **Zebus3d**
+en *Colores*. Los temas originales no se tocan.
 
 ### Dos trampas al probar cambios
 

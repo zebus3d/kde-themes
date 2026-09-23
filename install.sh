@@ -18,7 +18,7 @@ done
 # Plasma style (desktop theme)
 dest="$HOME/.local/share/plasma/desktoptheme"
 mkdir -p "$dest"
-for theme in Carl-custom; do
+for theme in Carl-custom DarkOne; do
     rm -rf "${dest:?}/$theme"
     cp -r "$src/desktoptheme/$theme" "$dest/"
     echo "installed plasma style: $theme"
@@ -37,7 +37,7 @@ cat <<'MSG'
 Done. Now pick them in System Settings:
 
   Colors & Themes > Window Decorations  ->  CarlSlim, ScratchySlim or DarkOne
-  Colors & Themes > Plasma Style        ->  Carl-custom
+  Colors & Themes > Plasma Style        ->  Carl-custom or DarkOne
   Colors & Themes > Colors              ->  DarkOne or Zebus3d
 
 Both KWin and Plasma cache themes in memory, so if one of these was already
