@@ -2,8 +2,7 @@
 """Generate the DarkOne (Enlightenment 16) Aurorae window decoration for Plasma 6.
 
 Colours sampled from the original e16 artwork (artwork/border, artwork/windowbutton):
-  titlebar inactive : #343434 -> #2c2c2c, top highlight #696969, bottom #080808
-  titlebar active   : #a41313 -> #920d0d, top highlight #a11212, bottom #6d0f0f
+  titlebar          : #343434 -> #2c2c2c, top highlight #696969, bottom 2 px #080808
   frame left bevel  : #000000 / #6a6a6a / #545454 / #3a3a3a / #000000
   frame right+bottom: #000000 / #191919 / #191919 / #3a3a3a / #000000
   button raised     : #7e7e7e highlight, #545454 -> #444444, #151515 shadow, glyph #b4b4b4
@@ -17,21 +16,16 @@ NAME = "DarkOne"
 
 # The real DarkOne e16 border maps titlebar.png (dark grey) to *every* state,
 # active included; titlebar_r.png (red) is only used for epplets. So active and
-# inactive windows share the same frame. Flip this to True for a red active bar.
-ACTIVE_IS_RED = False
-
+# inactive windows share the same frame and the decoration carries no red at all.
 # ---------------------------------------------------------------- decoration
 L, T, B, MID = 5, 22, 5, 50          # left/right, top, bottom, middle tile length
-ACT_TOP, ACT_BOT = "#a41313", "#920d0d"
+EDGE = 2                              # grosor del canto negro bajo el titulo
 INA_TOP, INA_BOT = "#343434", "#2c2c2c"
 
 
 def deco_set(prefix, active, ox, oy):
     """Return the 9 decoration elements for one state, translated by (ox, oy)."""
-    red = active and ACTIVE_IS_RED
-    g = "gradTitleActive" if red else "gradTitleInactive"
-    hi = "#a11212" if red else "#6a6a6a"
-    b1 = "#7d0f0f" if red else "#4a4a4a"
+    g = "gradTitleInactive"
     edge = "#080808"                       # canto inferior del titulo (casi negro, como el original)
     # bevel rings, outer -> inner.  left/top are the lit side, right/bottom the shade.
     l1, l2, l3, l4 = "#6a6a6a", "#545454", "#3a3a3a", "#1a1a1a"
@@ -42,39 +36,42 @@ def deco_set(prefix, active, ox, oy):
     # top-left corner (L x T): concentric L rings, like the bottom corners, so
     # the vertical bevel and the top bevel join without a step. The top bevel is
     # 3 px (l1/l2/l3) to match the side bevels, as in the E16 original.
+    # No bottom edge here: the vertical bevels run the full height of the tile so
+    # the black line under the title does not cut them. The line starts at the
+    # inner edge of the border (in the `top` tile).
     s.append(f'''    <g id="{p}topleft" transform="translate({ox},{oy})">
       <rect x="0" y="0" width="{L}" height="{T}" fill="#000000"/>
-      <rect x="1" y="1" width="{L-1}" height="{T-2}" fill="url(#{g})"/>
-      <rect x="1" y="1" width="1" height="{T-2}" fill="{l1}"/>
-      <rect x="2" y="2" width="1" height="{T-3}" fill="{l2}"/>
-      <rect x="3" y="3" width="1" height="{T-4}" fill="{l3}"/>
+      <rect x="1" y="1" width="{L-1}" height="{T-1}" fill="url(#{g})"/>
+      <rect x="1" y="1" width="1" height="{T-1}" fill="{l1}"/>
+      <rect x="2" y="2" width="1" height="{T-2}" fill="{l2}"/>
+      <rect x="3" y="3" width="1" height="{T-3}" fill="{l3}"/>
       <rect x="1" y="1" width="{L-1}" height="1" fill="{l1}"/>
       <rect x="2" y="2" width="{L-2}" height="1" fill="{l2}"/>
       <rect x="3" y="3" width="{L-3}" height="1" fill="{l3}"/>
-      <rect x="1" y="{T-1}" width="{L-1}" height="1" fill="{edge}"/>
     </g>''')
 
-    # top (MID x T): plain titlebar strip, 3 px bevel like the sides
+    # top (MID x T): plain titlebar strip, 3 px bevel like the sides. This is the
+    # only tile that carries the black edge line (EDGE px tall) under the title.
     s.append(f'''    <g id="{p}top" transform="translate({ox + L},{oy})">
       <rect x="0" y="0" width="{MID}" height="{T}" fill="#000000"/>
-      <rect x="0" y="1" width="{MID}" height="{T-2}" fill="url(#{g})"/>
+      <rect x="0" y="1" width="{MID}" height="{T-1-EDGE}" fill="url(#{g})"/>
       <rect x="0" y="1" width="{MID}" height="1" fill="{l1}"/>
       <rect x="0" y="2" width="{MID}" height="1" fill="{l2}"/>
       <rect x="0" y="3" width="{MID}" height="1" fill="{l3}"/>
-      <rect x="0" y="{T-1}" width="{MID}" height="1" fill="{edge}"/>
+      <rect x="0" y="{T-EDGE}" width="{MID}" height="{EDGE}" fill="{edge}"/>
     </g>''')
 
-    # top-right corner (L x T): concentric L rings, lit top / shaded right
+    # top-right corner (L x T): concentric L rings, lit top / shaded right.
+    # No bottom edge, like the top-left corner (see above).
     s.append(f'''    <g id="{p}topright" transform="translate({ox + L + MID},{oy})">
       <rect x="0" y="0" width="{L}" height="{T}" fill="#000000"/>
-      <rect x="0" y="1" width="{L-1}" height="{T-2}" fill="url(#{g})"/>
-      <rect x="{L-2}" y="1" width="1" height="{T-2}" fill="{r1}"/>
-      <rect x="{L-3}" y="2" width="1" height="{T-3}" fill="{r2}"/>
-      <rect x="{L-4}" y="3" width="1" height="{T-4}" fill="{r3}"/>
+      <rect x="0" y="1" width="{L-1}" height="{T-1}" fill="url(#{g})"/>
+      <rect x="{L-2}" y="1" width="1" height="{T-1}" fill="{r1}"/>
+      <rect x="{L-3}" y="2" width="1" height="{T-2}" fill="{r2}"/>
+      <rect x="{L-4}" y="3" width="1" height="{T-3}" fill="{r3}"/>
       <rect x="0" y="1" width="{L-1}" height="1" fill="{l1}"/>
       <rect x="0" y="2" width="{L-2}" height="1" fill="{l2}"/>
       <rect x="0" y="3" width="{L-3}" height="1" fill="{l3}"/>
-      <rect x="0" y="{T-1}" width="{L-1}" height="1" fill="{edge}"/>
     </g>''')
 
     # left (L x MID)
@@ -147,10 +144,6 @@ def deco_set(prefix, active, ox, oy):
 DECO = f'''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="220" height="100" version="1.1">
   <defs>
-    <linearGradient id="gradTitleActive" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="{ACT_TOP}"/>
-      <stop offset="1" stop-color="{ACT_BOT}"/>
-    </linearGradient>
     <linearGradient id="gradTitleInactive" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="{INA_TOP}"/>
       <stop offset="1" stop-color="{INA_BOT}"/>
