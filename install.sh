@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs the forked KDE themes for the current user.
+# Installs the KDE themes for the current user.
 # Nothing outside ~/.local/share is touched, and the original themes are left
 # alone, so you can always switch back.
 set -euo pipefail
@@ -9,7 +9,7 @@ src="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Aurorae window decorations
 dest="$HOME/.local/share/aurorae/themes"
 mkdir -p "$dest"
-for theme in CarlSlim ScratchySlim; do
+for theme in CarlSlim ScratchySlim DarkOne; do
     rm -rf "${dest:?}/$theme"
     cp -r "$src/aurorae/$theme" "$dest/"
     echo "installed window decoration: $theme"
@@ -24,17 +24,26 @@ for theme in Carl-custom; do
     echo "installed plasma style: $theme"
 done
 
+# Color scheme
+dest="$HOME/.local/share/color-schemes"
+mkdir -p "$dest"
+for scheme in Zebus3d.colors; do
+    cp "$src/color-schemes/$scheme" "$dest/"
+    echo "installed color scheme: $scheme"
+done
+
 cat <<'MSG'
 
 Done. Now pick them in System Settings:
 
-  Colors & Themes > Window Decorations  ->  CarlSlim or ScratchySlim
+  Colors & Themes > Window Decorations  ->  CarlSlim, ScratchySlim or DarkOne
   Colors & Themes > Plasma Style        ->  Carl-custom
+  Colors & Themes > Colors              ->  Zebus3d
 
 Both KWin and Plasma cache themes in memory, so if one of these was already
 selected the change will not show up on its own:
 
-  window decoration:  switch to another decoration and back
+  window decoration:  switch to another decoration and back (or ./reload.sh kwin)
   plasma style:       rm -f ~/.cache/plasma_theme_*.kcache
                       kquitapp6 plasmashell && setsid plasmashell &
 MSG

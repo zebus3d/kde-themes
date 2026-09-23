@@ -1,9 +1,20 @@
-# KDE Carl themes, fixed
+# KDE themes
 
-Forks of the **Carl** and **Scratchy** themes for KDE Plasma by jomada, with a
-few things fixed. Two Aurorae window decorations and one Plasma style.
+My KDE Plasma 6 themes: three Aurorae window decorations, one Plasma style and
+one color scheme. Some are forks of themes by **jomada** with a few things
+fixed; one (**DarkOne**) is a port from Enlightenment 16.
 
-## Window decorations: CarlSlim and ScratchySlim
+| Folder | Type | What it is |
+|---|---|---|
+| `aurorae/CarlSlim` | window decoration | Carl fork, bottom border made as thin as the sides |
+| `aurorae/ScratchySlim` | window decoration | Scratchy fork, same fix |
+| `aurorae/DarkOne` | window decoration | port of the DarkOne theme from Enlightenment 16 |
+| `desktoptheme/Carl-custom` | Plasma style | Carl fork with a lighter background |
+| `color-schemes/Zebus3d.colors` | color scheme | dark scheme with a blue focus accent |
+
+## Window decorations
+
+### CarlSlim and ScratchySlim
 
 **What this fixes:** on the original **Carl** and **Scratchy** Aurorae window
 decorations, the bottom border of every window is drawn about three times
@@ -16,9 +27,7 @@ changes: same artwork, same colors, same buttons, same title bar.
 No artwork was modified, only two layout values. Full details in
 [`aurorae/CarlSlim/README.md`](aurorae/CarlSlim/README.md).
 
-*(Version en castellano mas abajo.)*
-
-### The problem
+#### The problem
 
 On these themes the bottom border of every window looks much thicker than the
 side borders: 6 px at the bottom against 2 px at the sides.
@@ -29,7 +38,7 @@ hold the drop shadow. That band shifts vertically with `PaddingBottom`, so it
 spills below the window frame and adds to the real border. This is why lowering
 `BorderBottom` on its own changes nothing you can see.
 
-### The fix
+#### The fix
 
 Two values in the `[Layout]` section of the theme's rc file:
 
@@ -51,6 +60,27 @@ Two values in the `[Layout]` section of the theme's rc file:
 
 If you change `BorderBottom`, you have to recalibrate `PaddingBottom`.
 
+### DarkOne
+
+A port of **DarkOne for Enlightenment 16** (`DarkOne/e16` in
+`garrett/enlightenment-themes`) to an Aurorae decoration. The SVGs are drawn
+from scratch and the colors are sampled from the original E16 artwork. It is not
+a fork of Carl or Scratchy.
+
+Black 5 px frame with a bevel (lit on the left, shaded on the right and bottom)
+and mitered corners; a 22 px title bar that is the **same grey when active and
+inactive** (in the original the only focus cue is the title text color), with a
+near-black 1 px edge under it; and beveled buttons with the original glyphs,
+plus `menu`, `appmenu`, `alldesktops`, `keepabove`, `keepbelow`, `shade` and
+`help`.
+
+Three geometry traps are documented in
+[`aurorae/DarkOne/README.md`](aurorae/DarkOne/README.md): the title bar height
+is driven by the rc and not by the SVG, maximized windows paint only the centre
+(so a missing `decoration-maximized` gives a black title bar), and the bottom
+corners must be mitered or a bevel spike shows up. That theme also ships the
+`generate.py` that produced it.
+
 ## Plasma style: Carl-custom
 
 A fork of the **Carl** Plasma style with a lighter background than the original,
@@ -68,17 +98,23 @@ declared `fill="currentColor"` and Plasma resolves their color from `colors` at
 runtime. Full details in
 [`desktoptheme/Carl-custom/README.md`](desktoptheme/Carl-custom/README.md).
 
+## Color scheme: Zebus3d
+
+A dark color scheme to go with the decorations. Window background `#2b2b2b`,
+view `#1e1e1e`, buttons `#252525`, and a muted blue focus accent (`#6292af`,
+`98,146,175`). Nothing exotic, it just matches the greys of the Carl themes.
+
 ## Install
 
 ```bash
-git clone https://github.com/zebus3d/aurorae-slim-themes.git
-cd aurorae-slim-themes
+git clone https://github.com/zebus3d/kde-themes.git
+cd kde-themes
 ./install.sh
 ```
 
-Then pick them in *System Settings > Colors & Themes*: **CarlSlim** or
-**ScratchySlim** under *Window Decorations*, and **Carl-custom** under
-*Plasma Style*.
+Then pick them in *System Settings > Colors & Themes*: **CarlSlim**,
+**ScratchySlim** or **DarkOne** under *Window Decorations*, **Carl-custom**
+under *Plasma Style*, and **Zebus3d** under *Colors*.
 
 The installer only copies into `~/.local/share/`. It does not touch the original
 themes, so you can switch back at any time.
@@ -96,7 +132,7 @@ sw Breeze; sw CarlSlim
 
 **2. The global KDE "Border size" setting clamps these values.** It lives in
 `~/.config/kwinrc`, group `org.kde.kdecoration2`, key `BorderSize`. With `Tiny`
-the cap is 4 px, so writing 25 in the theme does nothing. These forks are tuned
+the cap is 4 px, so writing 25 in the theme does nothing. These themes are tuned
 for `BorderSize=Tiny`.
 
 ### Measuring borders properly
@@ -119,11 +155,13 @@ when you measure pixels on a full-screen capture.
 ## Repository layout
 
 ```
-aurorae/CarlSlim            window decoration
-aurorae/ScratchySlim        window decoration
-desktoptheme/Carl-custom    plasma style
-install.sh                  copies all three into ~/.local/share
-reload.sh                   reloads them after an edit
+aurorae/CarlSlim              window decoration
+aurorae/ScratchySlim          window decoration
+aurorae/DarkOne               window decoration (port from Enlightenment 16)
+desktoptheme/Carl-custom      plasma style
+color-schemes/Zebus3d.colors  color scheme
+install.sh                    copies all of them into ~/.local/share
+reload.sh                     reloads them after an edit
 ```
 
 Each theme folder carries its own README with the full diagnosis of what was
@@ -151,12 +189,13 @@ You can point the system at a clone instead of copying files, so that editing
 the repository *is* editing the live theme:
 
 ```bash
-git clone git@github.com:zebus3d/aurorae-slim-themes.git ~/github/aurorae-slim-themes
+git clone git@github.com:zebus3d/kde-themes.git ~/github/kde-themes
 cd ~/.local/share/aurorae/themes
-ln -s ~/github/aurorae-slim-themes/aurorae/CarlSlim CarlSlim
-ln -s ~/github/aurorae-slim-themes/aurorae/ScratchySlim ScratchySlim
+ln -s ~/github/kde-themes/aurorae/CarlSlim CarlSlim
+ln -s ~/github/kde-themes/aurorae/ScratchySlim ScratchySlim
+ln -s ~/github/kde-themes/aurorae/DarkOne DarkOne
 cd ~/.local/share/plasma/desktoptheme
-ln -s ~/github/aurorae-slim-themes/desktoptheme/Carl-custom Carl-custom
+ln -s ~/github/kde-themes/desktoptheme/Carl-custom Carl-custom
 ```
 
 Both KWin and Plasma follow the symlinks without complaining. Then the loop is
@@ -175,14 +214,37 @@ gzip -9 < /tmp/x.svg > widgets/panel-background.svgz
 
 KDE Plasma 6 on Wayland, Arch Linux, `BorderSize=Tiny`, display scale 1.
 
+## Credits and licenses
+
+Original **Carl** and **Scratchy** themes by **jomada** (gicalucejo@gmail.com).
+
+- The **CarlSlim** and **ScratchySlim** window decorations inherit the **GPL
+  v3** of the original theme: see `LICENSES-GPL-3.0.txt`.
+- The **Carl-custom** Plasma style inherits the **LGPL** of the original theme:
+  see `LICENSES-LGPL-3.0.txt`.
+- **DarkOne** is a re-creation of the DarkOne theme for Enlightenment 16
+  (`garrett/enlightenment-themes`), GPL v3.
+- The **Zebus3d** color scheme is my own.
+
 ---
 
 # En castellano
 
-Forks de los temas **Carl** y **Scratchy** de jomada para KDE Plasma. Dos
-decoraciones de ventana y un estilo de Plasma.
+Mis temas de KDE Plasma 6: tres decoraciones de ventana Aurorae, un estilo de
+Plasma y un esquema de color. Algunos son forks de temas de **jomada** con
+algunas cosas arregladas; uno (**DarkOne**) es un port de Enlightenment 16.
 
-## Decoraciones de ventana: CarlSlim y ScratchySlim
+| Carpeta | Tipo | Que es |
+|---|---|---|
+| `aurorae/CarlSlim` | decoracion | fork de Carl, borde inferior igualado a los lados |
+| `aurorae/ScratchySlim` | decoracion | fork de Scratchy, mismo arreglo |
+| `aurorae/DarkOne` | decoracion | port del tema DarkOne de Enlightenment 16 |
+| `desktoptheme/Carl-custom` | estilo de Plasma | fork de Carl con el fondo mas claro |
+| `color-schemes/Zebus3d.colors` | esquema de color | oscuro, con acento azul |
+
+## Decoraciones de ventana
+
+### CarlSlim y ScratchySlim
 
 **Que arregla:** en los temas originales **Carl** y **Scratchy** el borde
 inferior de las ventanas se dibuja unas tres veces mas grueso que los laterales,
@@ -190,7 +252,7 @@ inferior de las ventanas se dibuja unas tres veces mas grueso que los laterales,
 igualan el borde de abajo al de los lados. No cambia nada mas: mismo dibujo,
 mismos colores, mismos botones, misma barra de titulo.
 
-### El problema
+#### El problema
 
 El borde de abajo se ve mucho mas grueso que los de los lados: 6 px frente a
 2 px. La causa no es solo `BorderBottom`. El archivo `decoration.svg` pinta una
@@ -199,28 +261,31 @@ para la sombra. Esa banda se desplaza segun `PaddingBottom`, se cuela por debajo
 del marco y se suma al borde real. Por eso bajar solo `BorderBottom` no cambia
 nada visible.
 
-### La solucion
+#### La solucion
 
 Dos valores en la seccion `[Layout]`: `BorderBottom` de 7 a 2, y `PaddingBottom`
 de 90 a 86. El 86 esta calibrado midiendo pixeles: con 88 quedan 4 px, con 84 o
 menos el borde desaparece del todo.
 
-## Instalacion
+### DarkOne
 
-```bash
-git clone https://github.com/zebus3d/aurorae-slim-themes.git
-cd aurorae-slim-themes
-./install.sh
-```
+Port de **DarkOne para Enlightenment 16** (`DarkOne/e16` en
+`garrett/enlightenment-themes`). Los SVG estan dibujados desde cero y los
+colores muestreados del artwork original de E16. No es un fork de Carl ni de
+Scratchy.
 
-Luego elige **CarlSlim** o **ScratchySlim** en *Preferencias del sistema >
-Colores y temas > Decoraciones de ventana*. Los temas originales no se tocan.
+Marco negro de 5 px con bisel (claro a la izquierda, oscuro a la derecha y
+abajo) y esquinas a inglete; barra de titulo de 22 px que es **igual de gris
+activa que inactiva** (en el original el unico indicador de foco es el color del
+texto), con un canto casi negro de 1 px debajo; y botones biselados con los
+glifos originales, mas `menu`, `appmenu`, `alldesktops`, `keepabove`,
+`keepbelow`, `shade` y `help`.
 
-### Dos trampas al probar cambios
-
-KWin **cachea** el rc del tema, asi que `reconfigure` no basta: hay que cambiar a
-otro tema y volver. Y el ajuste global **Tamano de borde** de KDE recorta estos
-valores, con tope de 4 px cuando esta en `Tiny`.
+Las tres trampas de geometria estan documentadas en
+[`aurorae/DarkOne/README.md`](aurorae/DarkOne/README.md): el alto de la barra lo
+fija el rc y no el SVG, al maximizar Aurorae pinta solo el centro (sin
+`decoration-maximized` la barra sale negra) y las esquinas inferiores van a
+inglete o sale un pico. Ese tema incluye ademas el `generate.py` que lo genero.
 
 ## Estilo de Plasma: Carl-custom
 
@@ -230,6 +295,30 @@ panel vive en el archivo `colors`, clave `BackgroundNormal` del grupo `Window`.
 Cambiar los valores hexadecimales dentro de `widgets/panel-background.svgz` no
 se nota, porque esos elementos usan `fill="currentColor"` y Plasma resuelve el
 color desde `colors` en tiempo de ejecucion.
+
+## Esquema de color: Zebus3d
+
+Un esquema oscuro que acompana a las decoraciones. Fondo de ventana `#2b2b2b`,
+vista `#1e1e1e`, botones `#252525`, y un acento azul apagado (`#6292af`,
+`98,146,175`). Nada raro: solo cuadra con los grises de los temas Carl.
+
+## Instalacion
+
+```bash
+git clone https://github.com/zebus3d/kde-themes.git
+cd kde-themes
+./install.sh
+```
+
+Luego elige **CarlSlim**, **ScratchySlim** o **DarkOne** en *Preferencias del
+sistema > Colores y temas > Decoraciones de ventana*, **Carl-custom** en *Estilo
+de Plasma* y **Zebus3d** en *Colores*. Los temas originales no se tocan.
+
+### Dos trampas al probar cambios
+
+KWin **cachea** el rc del tema, asi que `reconfigure` no basta: hay que cambiar a
+otro tema y volver. Y el ajuste global **Tamano de borde** de KDE recorta estos
+valores, con tope de 4 px cuando esta en `Tiny`.
 
 ## Trabajar sobre estos temas
 
@@ -249,9 +338,12 @@ comprimidos con gzip: `zcat` para abrirlos y `gzip -9` para volver a guardarlos.
 
 ## Creditos y licencias
 
-Temas originales de **jomada** (gicalucejo@gmail.com).
+Temas originales **Carl** y **Scratchy** de **jomada** (gicalucejo@gmail.com).
 
-- Las decoraciones de ventana **CarlSlim** y **ScratchySlim** heredan la
-  **GPL v3** del tema original: ver `LICENSES-GPL-3.0.txt`.
+- Las decoraciones **CarlSlim** y **ScratchySlim** heredan la **GPL v3** del
+  tema original: ver `LICENSES-GPL-3.0.txt`.
 - El estilo de Plasma **Carl-custom** hereda la **LGPL** del tema original: ver
   `LICENSES-LGPL-3.0.txt`.
+- **DarkOne** es una re-creacion del tema DarkOne de Enlightenment 16
+  (`garrett/enlightenment-themes`), GPL v3.
+- El esquema de color **Zebus3d** es mio.

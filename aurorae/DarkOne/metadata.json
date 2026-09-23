@@ -1,0 +1,21 @@
+{
+    "KPackageStructure": "aurorae",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "zebus3d"
+            }
+        ],
+        "Category": "Plasma 6 Window Decorations",
+        "ServiceTypes": [
+            "aurorae"
+        ],
+        "EnabledByDefault": true,
+        "Name": "DarkOne",
+        "Description": "Aurorae decoration inspired by the DarkOne theme for Enlightenment 16",
+        "Id": "DarkOne",
+        "Version": "1.0",
+        "License": "GPL_V3",
+        "X-KDE-PluginInfo-blur": false
+    }
+}
