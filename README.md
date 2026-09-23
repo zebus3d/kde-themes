@@ -90,7 +90,7 @@ corners must be mitered or a bevel spike shows up. That theme also ships the
 A first pass at a Plasma style to go with the DarkOne decoration and color
 scheme. It starts from Carl-custom and **re-colours** it to the DarkOne palette:
 backgrounds to the DarkOne greys (`#2b2b2b`, `#1a1a1a`), text to `#d2d2d2` and
-the blue/purple accents to the DarkOne red (`#a41313`). The shapes are still
+the blue/purple accents to a muted steel blue (`#5a8ab0`). The shapes are still
 Carl's, not E16's; the panel and popups are not redrawn with the DarkOne bevel
 yet. It is a starting point, not a finished port.
 
@@ -117,9 +117,15 @@ runtime. Full details in
 
 A color scheme to go with the DarkOne decoration, sampled from the same E16
 artwork: greys for the window (`#2b2b2b`), view (`#1a1a1a`) and buttons
-(`#3a3a3a`), text `#d2d2d2` / `#808080`, and the DarkOne **red** (`#850b0b`, the
-color of the original progress bar) as the selection and focus accent. It is the
-part that colors Qt apps and dialogs, not only Plasma.
+(`#3a3a3a`), text `#d2d2d2` / `#808080`, and a muted steel blue (`#5a8ab0`) as
+the selection and focus accent. It is the part that colors Qt apps and dialogs,
+not only Plasma.
+
+A note on the accent: in the E16 original the only colored element is the
+progress bar, which is **red** (`#850b0b`). Red was tried here for selections
+too and it works, but it tires the eye and reads as a warning, so the scheme
+uses a muted blue instead. If you want the faithful red, it is a handful of
+values (`DecorationFocus`, `ForegroundActive` and the `Selection` group).
 
 ### Zebus3d
 
@@ -334,7 +340,7 @@ inglete o sale un pico. Ese tema incluye ademas el `generate.py` que lo genero.
 Primer pase de un estilo de Plasma para acompasar la decoracion y el esquema
 DarkOne. Parte de Carl-custom y lo **recolorea** a la paleta DarkOne: fondos a
 los grises DarkOne (`#2b2b2b`, `#1a1a1a`), texto a `#d2d2d2` y los acentos
-azul/morado al rojo DarkOne (`#a41313`). Las formas siguen siendo las de Carl,
+azul/morado a un azul acero apagado (`#5a8ab0`). Las formas siguen siendo las de Carl,
 no las de E16; el panel y los popups todavia no llevan el bisel DarkOne. Es un
 punto de partida, no un port terminado.
 
@@ -353,9 +359,15 @@ color desde `colors` en tiempo de ejecucion.
 
 Un esquema que acompana a la decoracion DarkOne, muestreado del mismo artwork
 de E16: grises para ventana (`#2b2b2b`), vista (`#1a1a1a`) y botones
-(`#3a3a3a`), texto `#d2d2d2` / `#808080`, y el **rojo** de DarkOne (`#850b0b`,
-el color de la barra de progreso original) como acento de seleccion y foco. Es
-la parte que tine las apps Qt y los dialogos, no solo Plasma.
+(`#3a3a3a`), texto `#d2d2d2` / `#808080`, y un **azul acero apagado**
+(`#5a8ab0`) como acento de seleccion y foco. Es la parte que tine las apps Qt y
+los dialogos, no solo Plasma.
+
+Sobre el acento: en el original de E16 el unico elemento con color es la barra
+de progreso, que es **roja** (`#850b0b`). Se probo el rojo tambien para
+seleccion y funciona, pero cansa y parece un aviso de error, asi que el esquema
+usa un azul apagado. Si lo quieres rojo fiel, son un punado de valores
+(`DecorationFocus`, `ForegroundActive` y el grupo `Selection`).
 
 ### Zebus3d
 

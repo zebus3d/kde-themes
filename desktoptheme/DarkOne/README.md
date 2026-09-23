@@ -9,8 +9,10 @@ LGPL) y lo **recolorea** a la paleta del DarkOne de Enlightenment 16.
 - Fondos: los grises de Carl-custom pasan a los de DarkOne (`#24272d` y `#232629`
   -> `#2b2b2b`, `#1a1c1e` -> `#1e1e1e`, `#111314` -> `#1a1a1a`).
 - Texto: `#eff0f1` / `#fcfcfc` -> `#d2d2d2`.
-- Acentos azul y morado (`#3c78ff`, `#7040ff`, `#3daee9`…) -> el rojo DarkOne
-  (`#a41313`).
+- Acentos azul y morado de Carl (`#3c78ff`, `#7040ff`, `#3daee9`…) -> un **azul
+  acero apagado** (`#5a8ab0`), que cuadra con los grises. El rojo `#850b0b` del
+  DarkOne original queda solo para el esquema de color si se quiere fiel; aqui
+  se descarto porque para seleccion cansa y parece un aviso de error.
 - El archivo `colors` del estilo, a la misma paleta.
 
 **No se redibuja ninguna forma**: las del panel, popups, botones, etc. siguen
