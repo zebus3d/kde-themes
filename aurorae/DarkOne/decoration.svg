@@ -14,28 +14,31 @@
     <g id="decoration-topleft" transform="translate(0,0)">
       <rect x="0" y="0" width="5" height="22" fill="#000000"/>
       <rect x="1" y="1" width="4" height="20" fill="url(#gradTitleInactive)"/>
-      <rect x="1" y="1" width="4" height="1" fill="#6a6a6a"/>
-      <rect x="1" y="2" width="4" height="1" fill="#4a4a4a"/>
       <rect x="1" y="1" width="1" height="20" fill="#6a6a6a"/>
-      <rect x="2" y="1" width="1" height="20" fill="#545454"/>
-      <rect x="3" y="1" width="1" height="20" fill="#3a3a3a"/>
+      <rect x="2" y="2" width="1" height="19" fill="#545454"/>
+      <rect x="3" y="3" width="1" height="18" fill="#3a3a3a"/>
+      <rect x="1" y="1" width="4" height="1" fill="#6a6a6a"/>
+      <rect x="2" y="2" width="3" height="1" fill="#545454"/>
+      <rect x="3" y="3" width="2" height="1" fill="#3a3a3a"/>
       <rect x="1" y="21" width="4" height="1" fill="#080808"/>
     </g>
     <g id="decoration-top" transform="translate(5,0)">
       <rect x="0" y="0" width="50" height="22" fill="#000000"/>
       <rect x="0" y="1" width="50" height="20" fill="url(#gradTitleInactive)"/>
       <rect x="0" y="1" width="50" height="1" fill="#6a6a6a"/>
-      <rect x="0" y="2" width="50" height="1" fill="#4a4a4a"/>
+      <rect x="0" y="2" width="50" height="1" fill="#545454"/>
+      <rect x="0" y="3" width="50" height="1" fill="#3a3a3a"/>
       <rect x="0" y="21" width="50" height="1" fill="#080808"/>
     </g>
     <g id="decoration-topright" transform="translate(55,0)">
       <rect x="0" y="0" width="5" height="22" fill="#000000"/>
       <rect x="0" y="1" width="4" height="20" fill="url(#gradTitleInactive)"/>
-      <rect x="0" y="1" width="4" height="1" fill="#6a6a6a"/>
-      <rect x="0" y="2" width="4" height="1" fill="#4a4a4a"/>
-      <rect x="1" y="1" width="1" height="20" fill="#333333"/>
-      <rect x="2" y="1" width="1" height="20" fill="#464646"/>
       <rect x="3" y="1" width="1" height="20" fill="#5a5a5a"/>
+      <rect x="2" y="2" width="1" height="19" fill="#464646"/>
+      <rect x="1" y="3" width="1" height="18" fill="#333333"/>
+      <rect x="0" y="1" width="4" height="1" fill="#6a6a6a"/>
+      <rect x="0" y="2" width="3" height="1" fill="#545454"/>
+      <rect x="0" y="3" width="2" height="1" fill="#3a3a3a"/>
       <rect x="0" y="21" width="4" height="1" fill="#080808"/>
     </g>
     <g id="decoration-left" transform="translate(0,22)">
@@ -92,28 +95,31 @@
     <g id="decoration-inactive-topleft" transform="translate(110,0)">
       <rect x="0" y="0" width="5" height="22" fill="#000000"/>
       <rect x="1" y="1" width="4" height="20" fill="url(#gradTitleInactive)"/>
-      <rect x="1" y="1" width="4" height="1" fill="#6a6a6a"/>
-      <rect x="1" y="2" width="4" height="1" fill="#4a4a4a"/>
       <rect x="1" y="1" width="1" height="20" fill="#6a6a6a"/>
-      <rect x="2" y="1" width="1" height="20" fill="#545454"/>
-      <rect x="3" y="1" width="1" height="20" fill="#3a3a3a"/>
+      <rect x="2" y="2" width="1" height="19" fill="#545454"/>
+      <rect x="3" y="3" width="1" height="18" fill="#3a3a3a"/>
+      <rect x="1" y="1" width="4" height="1" fill="#6a6a6a"/>
+      <rect x="2" y="2" width="3" height="1" fill="#545454"/>
+      <rect x="3" y="3" width="2" height="1" fill="#3a3a3a"/>
       <rect x="1" y="21" width="4" height="1" fill="#080808"/>
     </g>
     <g id="decoration-inactive-top" transform="translate(115,0)">
       <rect x="0" y="0" width="50" height="22" fill="#000000"/>
       <rect x="0" y="1" width="50" height="20" fill="url(#gradTitleInactive)"/>
       <rect x="0" y="1" width="50" height="1" fill="#6a6a6a"/>
-      <rect x="0" y="2" width="50" height="1" fill="#4a4a4a"/>
+      <rect x="0" y="2" width="50" height="1" fill="#545454"/>
+      <rect x="0" y="3" width="50" height="1" fill="#3a3a3a"/>
       <rect x="0" y="21" width="50" height="1" fill="#080808"/>
     </g>
     <g id="decoration-inactive-topright" transform="translate(165,0)">
       <rect x="0" y="0" width="5" height="22" fill="#000000"/>
       <rect x="0" y="1" width="4" height="20" fill="url(#gradTitleInactive)"/>
-      <rect x="0" y="1" width="4" height="1" fill="#6a6a6a"/>
-      <rect x="0" y="2" width="4" height="1" fill="#4a4a4a"/>
-      <rect x="1" y="1" width="1" height="20" fill="#333333"/>
-      <rect x="2" y="1" width="1" height="20" fill="#464646"/>
       <rect x="3" y="1" width="1" height="20" fill="#5a5a5a"/>
+      <rect x="2" y="2" width="1" height="19" fill="#464646"/>
+      <rect x="1" y="3" width="1" height="18" fill="#333333"/>
+      <rect x="0" y="1" width="4" height="1" fill="#6a6a6a"/>
+      <rect x="0" y="2" width="3" height="1" fill="#545454"/>
+      <rect x="0" y="3" width="2" height="1" fill="#3a3a3a"/>
       <rect x="0" y="21" width="4" height="1" fill="#080808"/>
     </g>
     <g id="decoration-inactive-left" transform="translate(110,22)">

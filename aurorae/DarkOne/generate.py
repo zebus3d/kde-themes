@@ -39,36 +39,41 @@ def deco_set(prefix, active, ox, oy):
     p = f"{prefix}-"
     s = []
 
-    # top-left corner (L x T): titlebar continues, lit bevel on the left edge
+    # top-left corner (L x T): concentric L rings, like the bottom corners, so
+    # the vertical bevel and the top bevel join without a step. The top bevel is
+    # 3 px (l1/l2/l3) to match the side bevels, as in the E16 original.
     s.append(f'''    <g id="{p}topleft" transform="translate({ox},{oy})">
       <rect x="0" y="0" width="{L}" height="{T}" fill="#000000"/>
       <rect x="1" y="1" width="{L-1}" height="{T-2}" fill="url(#{g})"/>
-      <rect x="1" y="1" width="{L-1}" height="1" fill="{hi}"/>
-      <rect x="1" y="2" width="{L-1}" height="1" fill="{b1}"/>
       <rect x="1" y="1" width="1" height="{T-2}" fill="{l1}"/>
-      <rect x="2" y="1" width="1" height="{T-2}" fill="{l2}"/>
-      <rect x="3" y="1" width="1" height="{T-2}" fill="{l3}"/>
+      <rect x="2" y="2" width="1" height="{T-3}" fill="{l2}"/>
+      <rect x="3" y="3" width="1" height="{T-4}" fill="{l3}"/>
+      <rect x="1" y="1" width="{L-1}" height="1" fill="{l1}"/>
+      <rect x="2" y="2" width="{L-2}" height="1" fill="{l2}"/>
+      <rect x="3" y="3" width="{L-3}" height="1" fill="{l3}"/>
       <rect x="1" y="{T-1}" width="{L-1}" height="1" fill="{edge}"/>
     </g>''')
 
-    # top (MID x T): plain titlebar strip
+    # top (MID x T): plain titlebar strip, 3 px bevel like the sides
     s.append(f'''    <g id="{p}top" transform="translate({ox + L},{oy})">
       <rect x="0" y="0" width="{MID}" height="{T}" fill="#000000"/>
       <rect x="0" y="1" width="{MID}" height="{T-2}" fill="url(#{g})"/>
-      <rect x="0" y="1" width="{MID}" height="1" fill="{hi}"/>
-      <rect x="0" y="2" width="{MID}" height="1" fill="{b1}"/>
+      <rect x="0" y="1" width="{MID}" height="1" fill="{l1}"/>
+      <rect x="0" y="2" width="{MID}" height="1" fill="{l2}"/>
+      <rect x="0" y="3" width="{MID}" height="1" fill="{l3}"/>
       <rect x="0" y="{T-1}" width="{MID}" height="1" fill="{edge}"/>
     </g>''')
 
-    # top-right corner (L x T): titlebar continues, shaded bevel on the right edge
+    # top-right corner (L x T): concentric L rings, lit top / shaded right
     s.append(f'''    <g id="{p}topright" transform="translate({ox + L + MID},{oy})">
       <rect x="0" y="0" width="{L}" height="{T}" fill="#000000"/>
       <rect x="0" y="1" width="{L-1}" height="{T-2}" fill="url(#{g})"/>
-      <rect x="0" y="1" width="{L-1}" height="1" fill="{hi}"/>
-      <rect x="0" y="2" width="{L-1}" height="1" fill="{b1}"/>
-      <rect x="{L-4}" y="1" width="1" height="{T-2}" fill="{r3}"/>
-      <rect x="{L-3}" y="1" width="1" height="{T-2}" fill="{r2}"/>
       <rect x="{L-2}" y="1" width="1" height="{T-2}" fill="{r1}"/>
+      <rect x="{L-3}" y="2" width="1" height="{T-3}" fill="{r2}"/>
+      <rect x="{L-4}" y="3" width="1" height="{T-4}" fill="{r3}"/>
+      <rect x="0" y="1" width="{L-1}" height="1" fill="{l1}"/>
+      <rect x="0" y="2" width="{L-2}" height="1" fill="{l2}"/>
+      <rect x="0" y="3" width="{L-3}" height="1" fill="{l3}"/>
       <rect x="0" y="{T-1}" width="{L-1}" height="1" fill="{edge}"/>
     </g>''')
 
