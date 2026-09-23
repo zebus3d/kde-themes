@@ -10,6 +10,7 @@ fixed; one (**DarkOne**) is a port from Enlightenment 16.
 | `aurorae/ScratchySlim` | window decoration | Scratchy fork, same fix |
 | `aurorae/DarkOne` | window decoration | port of the DarkOne theme from Enlightenment 16 |
 | `desktoptheme/Carl-custom` | Plasma style | Carl fork with a lighter background |
+| `color-schemes/DarkOne.colors` | color scheme | greys and red of the DarkOne theme |
 | `color-schemes/Zebus3d.colors` | color scheme | dark scheme with a blue focus accent |
 
 ## Window decorations
@@ -98,11 +99,21 @@ declared `fill="currentColor"` and Plasma resolves their color from `colors` at
 runtime. Full details in
 [`desktoptheme/Carl-custom/README.md`](desktoptheme/Carl-custom/README.md).
 
-## Color scheme: Zebus3d
+## Color schemes
 
-A dark color scheme to go with the decorations. Window background `#2b2b2b`,
-view `#1e1e1e`, buttons `#252525`, and a muted blue focus accent (`#6292af`,
-`98,146,175`). Nothing exotic, it just matches the greys of the Carl themes.
+### DarkOne
+
+A color scheme to go with the DarkOne decoration, sampled from the same E16
+artwork: greys for the window (`#2b2b2b`), view (`#1a1a1a`) and buttons
+(`#3a3a3a`), text `#d2d2d2` / `#808080`, and the DarkOne **red** (`#850b0b`, the
+color of the original progress bar) as the selection and focus accent. It is the
+part that colors Qt apps and dialogs, not only Plasma.
+
+### Zebus3d
+
+A dark color scheme to go with the Carl decorations. Window background
+`#2b2b2b`, view `#1e1e1e`, buttons `#252525`, and a muted blue focus accent
+(`#6292af`, `98,146,175`).
 
 ## Install
 
@@ -114,7 +125,7 @@ cd kde-themes
 
 Then pick them in *System Settings > Colors & Themes*: **CarlSlim**,
 **ScratchySlim** or **DarkOne** under *Window Decorations*, **Carl-custom**
-under *Plasma Style*, and **Zebus3d** under *Colors*.
+under *Plasma Style*, and **DarkOne** or **Zebus3d** under *Colors*.
 
 The installer only copies into `~/.local/share/`. It does not touch the original
 themes, so you can switch back at any time.
@@ -159,7 +170,8 @@ aurorae/CarlSlim              window decoration
 aurorae/ScratchySlim          window decoration
 aurorae/DarkOne               window decoration (port from Enlightenment 16)
 desktoptheme/Carl-custom      plasma style
-color-schemes/Zebus3d.colors  color scheme
+color-schemes/DarkOne.colors  color scheme (DarkOne)
+color-schemes/Zebus3d.colors  color scheme (Carl)
 install.sh                    copies all of them into ~/.local/share
 reload.sh                     reloads them after an edit
 ```
@@ -240,6 +252,7 @@ algunas cosas arregladas; uno (**DarkOne**) es un port de Enlightenment 16.
 | `aurorae/ScratchySlim` | decoracion | fork de Scratchy, mismo arreglo |
 | `aurorae/DarkOne` | decoracion | port del tema DarkOne de Enlightenment 16 |
 | `desktoptheme/Carl-custom` | estilo de Plasma | fork de Carl con el fondo mas claro |
+| `color-schemes/DarkOne.colors` | esquema de color | grises y rojo del tema DarkOne |
 | `color-schemes/Zebus3d.colors` | esquema de color | oscuro, con acento azul |
 
 ## Decoraciones de ventana
@@ -296,11 +309,21 @@ Cambiar los valores hexadecimales dentro de `widgets/panel-background.svgz` no
 se nota, porque esos elementos usan `fill="currentColor"` y Plasma resuelve el
 color desde `colors` en tiempo de ejecucion.
 
-## Esquema de color: Zebus3d
+## Esquemas de color
 
-Un esquema oscuro que acompana a las decoraciones. Fondo de ventana `#2b2b2b`,
-vista `#1e1e1e`, botones `#252525`, y un acento azul apagado (`#6292af`,
-`98,146,175`). Nada raro: solo cuadra con los grises de los temas Carl.
+### DarkOne
+
+Un esquema que acompana a la decoracion DarkOne, muestreado del mismo artwork
+de E16: grises para ventana (`#2b2b2b`), vista (`#1a1a1a`) y botones
+(`#3a3a3a`), texto `#d2d2d2` / `#808080`, y el **rojo** de DarkOne (`#850b0b`,
+el color de la barra de progreso original) como acento de seleccion y foco. Es
+la parte que tine las apps Qt y los dialogos, no solo Plasma.
+
+### Zebus3d
+
+Un esquema oscuro que acompana a las decoraciones Carl. Fondo de ventana
+`#2b2b2b`, vista `#1e1e1e`, botones `#252525`, y un acento azul apagado
+(`#6292af`, `98,146,175`).
 
 ## Instalacion
 
@@ -312,7 +335,8 @@ cd kde-themes
 
 Luego elige **CarlSlim**, **ScratchySlim** o **DarkOne** en *Preferencias del
 sistema > Colores y temas > Decoraciones de ventana*, **Carl-custom** en *Estilo
-de Plasma* y **Zebus3d** en *Colores*. Los temas originales no se tocan.
+de Plasma* y **DarkOne** o **Zebus3d** en *Colores*. Los temas originales no se
+tocan.
 
 ### Dos trampas al probar cambios
 

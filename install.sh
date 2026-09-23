@@ -27,7 +27,7 @@ done
 # Color scheme
 dest="$HOME/.local/share/color-schemes"
 mkdir -p "$dest"
-for scheme in Zebus3d.colors; do
+for scheme in DarkOne.colors Zebus3d.colors; do
     cp "$src/color-schemes/$scheme" "$dest/"
     echo "installed color scheme: $scheme"
 done
@@ -38,7 +38,7 @@ Done. Now pick them in System Settings:
 
   Colors & Themes > Window Decorations  ->  CarlSlim, ScratchySlim or DarkOne
   Colors & Themes > Plasma Style        ->  Carl-custom
-  Colors & Themes > Colors              ->  Zebus3d
+  Colors & Themes > Colors              ->  DarkOne or Zebus3d
 
 Both KWin and Plasma cache themes in memory, so if one of these was already
 selected the change will not show up on its own:
