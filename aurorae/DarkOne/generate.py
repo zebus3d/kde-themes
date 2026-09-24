@@ -2,7 +2,7 @@
 """Generate the DarkOne (Enlightenment 16) Aurorae window decoration for Plasma 6.
 
 Colours sampled from the original e16 artwork (artwork/border, artwork/windowbutton):
-  titlebar          : #343434 -> #2c2c2c, top highlight #696969, bottom #3a3a3a + 2 px #080808
+  titlebar          : #343434 -> #2c2c2c, top highlight #696969, bottom 2 px #080808
   frame left bevel  : #000000 / #6a6a6a / #545454 / #3a3a3a / #000000
   frame right+bottom: #000000 / #191919 / #191919 / #3a3a3a / #000000
   button raised     : #7e7e7e highlight, #545454 -> #444444, #151515 shadow, glyph #b4b4b4
@@ -20,7 +20,6 @@ NAME = "DarkOne"
 # ---------------------------------------------------------------- decoration
 L, T, B, MID = 5, 22, 5, 50          # left/right, top, bottom, middle tile length
 EDGE = 2                              # grosor del canto negro bajo el titulo
-EDGE_HI = "#3a3a3a"                   # 1 px claro encima del canto, para atenuar la linea negra
 INA_TOP, INA_BOT = "#343434", "#2c2c2c"
 
 
@@ -59,7 +58,6 @@ def deco_set(prefix, active, ox, oy):
       <rect x="0" y="1" width="{MID}" height="1" fill="{l1}"/>
       <rect x="0" y="2" width="{MID}" height="1" fill="{l2}"/>
       <rect x="0" y="3" width="{MID}" height="1" fill="{l3}"/>
-      <rect x="0" y="{T-EDGE-1}" width="{MID}" height="1" fill="{EDGE_HI}"/>
       <rect x="0" y="{T-EDGE}" width="{MID}" height="{EDGE}" fill="{edge}"/>
     </g>''')
 
