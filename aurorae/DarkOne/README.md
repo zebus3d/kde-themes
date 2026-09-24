@@ -19,9 +19,11 @@ seguir usando en Enlightenment; esto es una re-creacion para KWin.
   original **no** es la barra activa: en E16 solo se usa para epplets (mirar
   `imageclasses/borders.cfg`, donde todos los estados mapean a `titlebar.png`).
 - Canto inferior de 2 px `#080808`, casi negro, como las dos ultimas filas del
-  `titlebar.png` original (`#1B1B1B` + `#0C0C0C`). La linea solo ocupa el tramo
-  entre los bordes laterales: los biseles verticales de las esquinas llegan
-  hasta abajo del titulo y la linea no los corta.
+  `titlebar.png` original (`#1B1B1B` + `#0C0C0C`). Justo encima lleva 1 px
+  `#3a3a3a` que atenua la linea negra (la lee como sombra, no como una banda
+  dura). La linea solo ocupa el tramo entre los bordes laterales: los biseles
+  verticales de las esquinas llegan hasta abajo del titulo y la linea no los
+  corta.
 - Botones biselados con los glifos originales: cerrar, minimizar, maximizar,
   restaurar, y ademas `menu` (menu de ventana), `appmenu` (hamburguesa),
   `alldesktops`, `keepabove`, `keepbelow`, `shade` y `help`.
