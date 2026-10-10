@@ -13,31 +13,18 @@ Kirigami.FormLayout {
     property alias cfg_sliderVisible: sliderVisibleBox.checked
     property string cfg_colorMode: "theme"
 
+    // ------------------------------------------------------------- Background
+    QQC2.Label {
+        Kirigami.FormData.isSection: true
+        text: i18n("Background")
+    }
+
     QQC2.Slider {
         id: opacitySlider
         Kirigami.FormData.label: i18n("Opacity:")
         from: 0
         to: 1
         QQC2.ToolTip.text: i18n("0% is fully transparent, 100% is solid.")
-        QQC2.ToolTip.visible: hovered
-    }
-
-    QQC2.ComboBox {
-        id: colorModeBox
-        Kirigami.FormData.label: i18n("Color:")
-        model: [i18n("Theme color"), i18n("Custom color")]
-        currentIndex: page.cfg_colorMode === "custom" ? 1 : 0
-        onActivated: page.cfg_colorMode = (currentIndex === 1 ? "custom" : "theme")
-        QQC2.ToolTip.text: i18n("Use the color of the current Plasma style, or pick your own.")
-        QQC2.ToolTip.visible: hovered
-    }
-
-    KQControls.ColorButton {
-        id: colorButton
-        Kirigami.FormData.label: i18n("Custom color:")
-        showAlphaChannel: false
-        enabled: page.cfg_colorMode === "custom"
-        QQC2.ToolTip.text: i18n("Background color used when Color is set to Custom color.")
         QQC2.ToolTip.visible: hovered
     }
 
@@ -56,6 +43,37 @@ Kirigami.FormLayout {
         enabled: blurBox.checked
         QQC2.ToolTip.text: i18n("Strength of the global KWin blur effect. Affects every window, not only the panel.")
         QQC2.ToolTip.visible: hovered
+    }
+
+    // ------------------------------------------------------------------ Color
+    QQC2.Label {
+        Kirigami.FormData.isSection: true
+        text: i18n("Color")
+    }
+
+    QQC2.ComboBox {
+        id: colorModeBox
+        Kirigami.FormData.label: i18n("Source:")
+        model: [i18n("Theme color"), i18n("Custom color")]
+        currentIndex: page.cfg_colorMode === "custom" ? 1 : 0
+        onActivated: page.cfg_colorMode = (currentIndex === 1 ? "custom" : "theme")
+        QQC2.ToolTip.text: i18n("Use the color of the current Plasma style, or pick your own.")
+        QQC2.ToolTip.visible: hovered
+    }
+
+    KQControls.ColorButton {
+        id: colorButton
+        Kirigami.FormData.label: i18n("Custom color:")
+        showAlphaChannel: false
+        enabled: page.cfg_colorMode === "custom"
+        QQC2.ToolTip.text: i18n("Background color used when Color is set to Custom color.")
+        QQC2.ToolTip.visible: hovered
+    }
+
+    // ------------------------------------------------------------ Panel widget
+    QQC2.Label {
+        Kirigami.FormData.isSection: true
+        text: i18n("Panel widget")
     }
 
     QQC2.CheckBox {
