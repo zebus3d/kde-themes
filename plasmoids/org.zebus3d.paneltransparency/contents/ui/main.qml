@@ -61,9 +61,13 @@ PlasmoidItem {
     }
 
     function largestItem(items) {
+        // Ignore the two hidden helper SVGs of Panel.qml (thickPanelSvg,
+        // floatingPanelSvg): they are tiny and would give a wrong geometry.
         let ref = null;
         for (let i = 0; i < items.length; ++i) {
             const it = items[i];
+            if (it.width * it.height < 2000)
+                continue;
             if (!ref || it.width * it.height > ref.width * ref.height)
                 ref = it;
         }
@@ -113,8 +117,23 @@ PlasmoidItem {
             return;
 
         const items = backgroundItems();
-        if (items.length > 0)
-            main.bgRefItem = largestItem(items);
+
+        // The native background may already be removed (NoBackground persists in
+        // the applet config across sessions), and then the real background
+        // layers have no imagePath and cannot be found. Restore it for one pass
+        // so we can read the real geometry, then re-apply the wanted state.
+        if (!main.bgRefItem && containment.Plasmoid.backgroundHints === PlasmaCore.Types.NoBackground) {
+            containment.Plasmoid.backgroundHints = PlasmaCore.Types.DefaultBackground;
+            Qt.callLater(main.apply);
+            return;
+        }
+
+        // Only update the reference with a real (large) background item; when the
+        // native background is removed only the tiny helpers are found, and we
+        // must keep the geometry we already captured.
+        const ref = largestItem(items);
+        if (ref)
+            main.bgRefItem = ref;
 
         const transparent = main.cfgOpacity <= 0.001;
         // We draw our own background when the colour is custom, or when the blur
