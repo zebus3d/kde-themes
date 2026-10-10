@@ -111,6 +111,44 @@ PlasmoidItem {
 
     property var customBg: null
 
+    // Plasma chooses which native background layer is visible (and whether the
+    // solid one is used) from the panel's own floatingness/panelOpacity, which
+    // changes when a window is maximised/touching the panel. We pin that choice
+    // ourselves so the transition cannot flash the solid background nor hide
+    // the translucent base, not even for a frame. Only the real (large)
+    // background layers are touched; the two tiny helper SVGs are left alone.
+    function pinTranslucentLayers(items) {
+        const el = main.panelElement;
+        if (!el)
+            return;
+        const floating = el.floatingness !== 0;
+        for (let i = 0; i < items.length; ++i) {
+            const it = items[i];
+            if (it.width * it.height < 2000)
+                continue;
+            let path = "";
+            try {
+                path = it.imagePath ? it.imagePath.toString() : "";
+            } catch (e) {
+                path = "";
+            }
+            if (path.indexOf("solid/") !== -1) {
+                // Solid (opaque) layer: never let Plasma show it.
+                it.visible = false;
+                continue;
+            }
+            // Among the two translucent layers, the floating variant is the one
+            // the other is anchored to, so it has no anchors.fill of its own.
+            let floatingVariant = false;
+            try {
+                floatingVariant = !it.anchors.fill;
+            } catch (e) {
+                floatingVariant = false;
+            }
+            it.visible = floatingVariant ? floating : !floating;
+        }
+    }
+
     function apply() {
         const containment = Plasmoid.containment;
         if (!containment || !containment.Plasmoid)
@@ -135,6 +173,15 @@ PlasmoidItem {
         if (ref)
             main.bgRefItem = ref;
 
+        // Plasma's Adaptive opacity mode swaps the panel background to the
+        // "solid" variant when a window is maximised/touching the panel
+        // (Panel.qml sets panelOpacity = 1), which made the panel look
+        // different. Pin panelOpacity to 0 so the translucent base is used
+        // consistently and cfgOpacity stays in control. Only in Adaptive mode:
+        // Translucent is already 0 and Opaque is the user's explicit choice.
+        if (main.panelElement && main.panelElement.isAdaptive && main.panelElement.panelOpacity !== 0)
+            main.panelElement.panelOpacity = 0;
+
         const transparent = main.cfgOpacity <= 0.001;
         // We draw our own background when the colour is custom, or when the blur
         // is off (KWin only blurs a panel that has a native background, so we
@@ -155,6 +202,7 @@ PlasmoidItem {
         for (let i = 0; i < items.length; ++i) {
             items[i].opacity = ownBg ? 0 : main.cfgOpacity;
         }
+        main.pinTranslucentLayers(items);
 
         if (ownBg && main.panelElement) {
             if (!main.customBg)
@@ -241,6 +289,40 @@ PlasmoidItem {
         if (containment && containment.Plasmoid.backgroundHints === PlasmaCore.Types.NoBackground) {
             containment.Plasmoid.backgroundHints = PlasmaCore.Types.DefaultBackground;
         }
+        const el = main.panelElement;
+        // Give the native layers back to Panel.qml: we broke their visible
+        // bindings in pinTranslucentLayers().
+        if (el) {
+            const items = main.backgroundItems();
+            for (let i = 0; i < items.length; ++i) {
+                const it = items[i];
+                if (it.width * it.height < 2000)
+                    continue;
+                let path = "";
+                try {
+                    path = it.imagePath ? it.imagePath.toString() : "";
+                } catch (e) {
+                    path = "";
+                }
+                if (path.indexOf("solid/") !== -1) {
+                    it.visible = Qt.binding(function() { return el.panelOpacity !== 0; });
+                    continue;
+                }
+                let floatingVariant = false;
+                try {
+                    floatingVariant = !it.anchors.fill;
+                } catch (e) {
+                    floatingVariant = false;
+                }
+                const fv = floatingVariant;
+                it.visible = Qt.binding(function() {
+                    const fl = el.floatingness !== 0;
+                    return el.panelOpacity !== 1 && (fv ? fl : !fl);
+                });
+            }
+        }
+        if (el && el.isAdaptive)
+            el.panelOpacity = el.touchingWindow ? 1 : 0;
     }
 
     toolTipMainText: i18n("Panel transparency")
