@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Effects
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
@@ -9,10 +8,11 @@ PlasmoidItem {
     id: main
 
     // ------------------------------------------------------------ configuration
-    readonly property bool cfgEnabled: Plasmoid.configuration.enabled
     readonly property real cfgOpacity: Plasmoid.configuration.opacity
     readonly property string cfgColorMode: Plasmoid.configuration.colorMode
     readonly property color cfgCustomColor: Plasmoid.configuration.customColor
+    readonly property bool cfgBlur: Plasmoid.configuration.blur
+    readonly property int cfgBlurStrength: Plasmoid.configuration.blurStrength
     readonly property bool cfgSliderVisible: Plasmoid.configuration.sliderVisible
 
     readonly property bool editMode: {
@@ -36,9 +36,10 @@ PlasmoidItem {
         return null;
     }
 
-    // The four KSvg.FrameSvgItem layers that draw the panel background
-    // (translucent/opaque, floating/not). Their `imagePath` contains
-    // "panel-background".
+    // Background layers of the panel. Their `imagePath` contains
+    // "panel-background"; the two hidden helper SVGs of Panel.qml
+    // (thickPanelSvg, floatingPanelSvg) also match but are tiny, so the largest
+    // one is the real background and gives the geometry.
     function backgroundItems() {
         const el = main.panelElement;
         let result = [];
@@ -59,35 +60,93 @@ PlasmoidItem {
         return result;
     }
 
-    // One MultiEffect per background item, tinting the theme's artwork to the
-    // custom colour while keeping its shape, border and blur mask.
-    property var tintEffects: new Map()
+    function largestItem(items) {
+        let ref = null;
+        for (let i = 0; i < items.length; ++i) {
+            const it = items[i];
+            if (!ref || it.width * it.height > ref.width * ref.height)
+                ref = it;
+        }
+        return ref;
+    }
 
+    // Geometry reference for our own background rectangle. The FrameSvgItem
+    // objects persist even when the native background is removed
+    // (NoBackground only clears their imagePath), so this stays valid.
+    property var bgRefItem: null
+
+    // Colour of the current Plasma theme panel background, used when we draw our
+    // own background without the native one (blur off).
+    Item {
+        id: themeColorProbe
+        visible: false
+        Kirigami.Theme.colorSet: Kirigami.Theme.Window
+        Kirigami.Theme.inherit: false
+        readonly property color bgColor: Kirigami.Theme.backgroundColor
+    }
+
+    // Custom-colour background. KSvg.FrameSvgItem has no colour property and a
+    // MultiEffect only tints (modulated by luminance), so to *replace* the
+    // colour we draw our own rectangle sized to the theme background geometry.
     Component {
-        id: tintComponent
-        MultiEffect {
-            colorization: 1.0
-            colorizationColor: main.cfgCustomColor
+        id: customBgComponent
+        Rectangle {
+            property var refItem
+            x: refItem ? refItem.x : 0
+            y: refItem ? refItem.y : 0
+            width: refItem ? refItem.width : 0
+            height: refItem ? refItem.height : 0
+            // The theme draws rounded corners; match the usual Plasma radius so
+            // the corners do not show square, specially on floating panels.
+            radius: 6
+            color: "transparent"
+            opacity: 1
+            z: -1
         }
     }
 
+    property var customBg: null
+
     function apply() {
+        const containment = Plasmoid.containment;
+        if (!containment || !containment.Plasmoid)
+            return;
+
         const items = backgroundItems();
-        const alpha = main.cfgEnabled ? main.cfgOpacity : 1.0;
-        const custom = main.cfgEnabled && main.cfgColorMode === "custom";
+        if (items.length > 0)
+            main.bgRefItem = largestItem(items);
+
+        const transparent = main.cfgOpacity <= 0.001;
+        // We draw our own background when the colour is custom, or when the blur
+        // is off (KWin only blurs a panel that has a native background, so we
+        // drop it and paint the colour ourselves).
+        const ownBg = !transparent && (main.cfgColorMode === "custom" || !main.cfgBlur);
+
+        // KWin turns blur and background contrast off when the panel has no
+        // background (PanelView::updateMask), which is how we disable the blur.
+        const hints = (transparent || (ownBg && !main.cfgBlur))
+            ? PlasmaCore.Types.NoBackground
+            : PlasmaCore.Types.DefaultBackground;
+        if (containment.Plasmoid.backgroundHints !== hints) {
+            containment.Plasmoid.backgroundHints = hints;
+            Qt.callLater(main.apply);
+        }
+
+        // Native layers: hidden when we draw our own background.
         for (let i = 0; i < items.length; ++i) {
-            const item = items[i];
-            item.opacity = alpha;
-            if (custom) {
-                if (!main.tintEffects.has(item)) {
-                    main.tintEffects.set(item, tintComponent.createObject(item));
-                }
-                item.layer.effect = main.tintEffects.get(item);
-                item.layer.enabled = true;
-            } else {
-                item.layer.enabled = false;
-                item.layer.effect = null;
-            }
+            items[i].opacity = ownBg ? 0 : main.cfgOpacity;
+        }
+
+        if (ownBg && main.panelElement) {
+            if (!main.customBg)
+                main.customBg = customBgComponent.createObject(main.panelElement);
+            main.customBg.refItem = main.bgRefItem;
+            main.customBg.color = (main.cfgColorMode === "custom") ? main.cfgCustomColor
+                                                                   : themeColorProbe.bgColor;
+            main.customBg.opacity = main.cfgOpacity;
+            main.customBg.visible = true;
+        } else if (main.customBg) {
+            main.customBg.visible = false;
         }
     }
 
@@ -103,8 +162,12 @@ PlasmoidItem {
         Plasmoid.configuration.customColor = c;
     }
 
-    function setEnabled(v) {
-        Plasmoid.configuration.enabled = v;
+    function setBlur(v) {
+        Plasmoid.configuration.blur = v;
+    }
+
+    function setBlurStrength(v) {
+        Plasmoid.configuration.blurStrength = Math.round(v);
     }
 
     function setSliderVisible(v) {
@@ -120,11 +183,19 @@ PlasmoidItem {
         Plasmoid.configuration.writeConfig();
     }
 
-    onCfgEnabledChanged: apply()
     onCfgOpacityChanged: apply()
     onCfgColorModeChanged: apply()
     onCfgCustomColorChanged: apply()
-    onPanelElementChanged: apply()
+    onCfgBlurChanged: apply()
+
+    onPanelElementChanged: {
+        if (main.customBg) {
+            main.customBg.visible = false;
+            main.customBg = null;
+        }
+        main.bgRefItem = null;
+        apply();
+    }
 
     Connections {
         target: main.panelElement
@@ -142,6 +213,15 @@ PlasmoidItem {
     Component.onCompleted: {
         Plasmoid.status = PlasmaCore.Types.ActiveStatus;
         Qt.callLater(apply);
+        runCommand.exec("kreadconfig6 --file kwinrc --group Effect-blur --key BlurStrength");
+    }
+
+    // Restore the native panel background if we removed it.
+    Component.onDestruction: {
+        const containment = Plasmoid.containment;
+        if (containment && containment.Plasmoid.backgroundHints === PlasmaCore.Types.NoBackground) {
+            containment.Plasmoid.backgroundHints = PlasmaCore.Types.DefaultBackground;
+        }
     }
 
     toolTipMainText: i18n("Panel transparency")
@@ -160,6 +240,40 @@ PlasmoidItem {
     }
 
     Plasmoid.contextualActions: [sliderAction]
+
+    // Global KWin blur strength. KWin stores it in kwinrc [Effect-blur]
+    // BlurStrength (1..15) and has no per-window strength, so this slider
+    // changes the blur for every window, not only the panel.
+    property bool blurSyncing: false
+
+    RunCommand {
+        id: runCommand
+        onCommandFinished: (cmd, exitCode, stdout) => {
+            if (cmd.startsWith("kreadconfig6") && exitCode === 0) {
+                const v = parseInt(stdout.trim());
+                if (!isNaN(v)) {
+                    main.blurSyncing = true;
+                    Plasmoid.configuration.blurStrength = v;
+                    main.blurSyncing = false;
+                }
+            }
+        }
+    }
+
+    Timer {
+        id: blurTimer
+        interval: 150
+        onTriggered: {
+            runCommand.exec("kwriteconfig6 --file kwinrc --group Effect-blur --key BlurStrength "
+                + Math.round(main.cfgBlurStrength)
+                + " && sleep 0.3 && qdbus6 org.kde.KWin /Effects org.kde.kwin.Effects.reconfigureEffect blur");
+        }
+    }
+
+    onCfgBlurStrengthChanged: {
+        if (!main.blurSyncing)
+            blurTimer.restart();
+    }
 
     compactRepresentation: CompactRepresentation {
         panel: main

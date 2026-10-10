@@ -24,27 +24,11 @@ Item {
             font.bold: true
         }
 
-        PlasmaComponents3.CheckBox {
-            Layout.fillWidth: true
-            text: i18n("Enable custom panel background")
-            checked: full.panel ? full.panel.cfgEnabled : true
-            onToggled: if (full.panel) full.panel.setEnabled(checked)
-        }
-
-        PlasmaComponents3.CheckBox {
-            Layout.fillWidth: true
-            text: i18n("Show the opacity slider in the panel")
-            checked: full.panel ? full.panel.cfgSliderVisible : false
-            onToggled: if (full.panel) full.panel.setSliderVisible(checked)
-        }
-
         PlasmaComponents3.Slider {
             id: opacitySlider
             Layout.fillWidth: true
             from: 0
             to: 1
-            stepSize: 0.05
-            enabled: full.panel ? full.panel.cfgEnabled : true
             value: full.panel ? full.panel.cfgOpacity : 1
             onValueChanged: if (full.panel) full.panel.setOpacity(value)
             onPressedChanged: if (!pressed && full.panel) full.panel.saveConfig()
@@ -61,18 +45,50 @@ Item {
             PlasmaComponents3.ComboBox {
                 id: colorModeBox
                 Layout.fillWidth: true
-                enabled: full.panel ? full.panel.cfgEnabled : true
                 model: [i18n("Theme color"), i18n("Custom color")]
                 currentIndex: (full.panel && full.panel.cfgColorMode === "custom") ? 1 : 0
                 onActivated: if (full.panel) full.panel.setColorMode(currentIndex === 1 ? "custom" : "theme")
             }
 
             KQC.ColorButton {
-                enabled: full.panel && full.panel.cfgEnabled && full.panel.cfgColorMode === "custom"
+                enabled: full.panel && full.panel.cfgColorMode === "custom"
                 showAlphaChannel: false
                 color: full.panel ? full.panel.cfgCustomColor : "transparent"
                 onAccepted: (c) => { if (full.panel) full.panel.setCustomColor(c); }
             }
+        }
+
+        PlasmaComponents3.CheckBox {
+            Layout.fillWidth: true
+            text: i18n("Blur behind the panel")
+            checked: full.panel ? full.panel.cfgBlur : true
+            onToggled: if (full.panel) full.panel.setBlur(checked)
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Kirigami.Units.smallSpacing
+
+            PlasmaComponents3.Label {
+                text: i18n("Blur strength:")
+            }
+
+            PlasmaComponents3.Slider {
+                Layout.fillWidth: true
+                from: 1
+                to: 15
+                enabled: full.panel ? full.panel.cfgBlur : true
+                value: full.panel ? full.panel.cfgBlurStrength : 15
+                onValueChanged: if (full.panel) full.panel.setBlurStrength(value)
+                onPressedChanged: if (!pressed && full.panel) full.panel.saveConfig()
+            }
+        }
+
+        PlasmaComponents3.CheckBox {
+            Layout.fillWidth: true
+            text: i18n("Show the opacity slider in the panel")
+            checked: full.panel ? full.panel.cfgSliderVisible : false
+            onToggled: if (full.panel) full.panel.setSliderVisible(checked)
         }
 
         PlasmaComponents3.Label {

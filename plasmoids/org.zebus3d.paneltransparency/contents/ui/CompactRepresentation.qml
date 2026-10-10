@@ -24,8 +24,6 @@ Item {
         width: Kirigami.Units.gridUnit * 6
         from: 0
         to: 1
-        stepSize: 0.05
-        enabled: root.panel ? root.panel.cfgEnabled : true
         value: root.panel ? root.panel.cfgOpacity : 1.0
         Accessible.name: i18n("Panel background opacity")
 

@@ -5,10 +5,6 @@
                           http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <kcfgfile name=""/>
     <group name="General">
-        <entry name="enabled" type="Bool">
-            <label>Enable custom panel background</label>
-            <default>true</default>
-        </entry>
         <entry name="opacity" type="Double">
             <label>Panel background opacity (0 = transparent, 1 = solid)</label>
             <default>1.0</default>
@@ -20,6 +16,14 @@
         <entry name="customColor" type="Color">
             <label>Custom background color</label>
             <default>28,31,36</default>
+        </entry>
+        <entry name="blur" type="Bool">
+            <label>Blur behind the panel</label>
+            <default>true</default>
+        </entry>
+        <entry name="blurStrength" type="Int">
+            <label>Blur strength (global KWin blur effect, 1-15)</label>
+            <default>15</default>
         </entry>
         <entry name="sliderVisible" type="Bool">
             <label>Show the opacity slider (otherwise the widget stays collapsed in the panel)</label>

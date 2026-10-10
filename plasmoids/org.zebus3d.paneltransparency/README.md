@@ -50,9 +50,16 @@ kpackagetool6 --type Plasma/Applet --install plasmoids/org.zebus3d.paneltranspar
 Plasma draws the panel background with four `KSvg.FrameSvgItem` layers
 (translucent/opaque × floating/not). The widget walks up the item tree to the
 `Panel.qml` root, finds those layers (their `imagePath` contains
-`panel-background`) and sets their `opacity`. For a custom colour it tints the
-same layers with a `MultiEffect` colourisation, which keeps the theme's shape,
-border and the KWin blur mask intact.
+`panel-background`) and sets their `opacity`.
+
+For a custom colour it **replaces** the background: it hides the native layers
+and draws its own rectangle with the exact colour, sized to the theme background
+geometry (the four layers share it). Hiding the native layers keeps their mask,
+so the KWin blur behind the panel still works.
+
+At opacity 0 the widget also drops the native panel background
+(`backgroundHints = NoBackground`), which makes KWin turn off blur and contrast
+behind the panel, so it becomes truly transparent instead of a blurred strip.
 
 ## Caveats
 
@@ -60,8 +67,8 @@ border and the KWin blur mask intact.
   the native *Adaptive* mode no longer cross-fades on its own.
 - Disabling or removing the widget restores opacity `1.0`, but a full restore of
   the original behaviour may need a plasmashell restart.
-- Custom colour is applied by colourising the theme artwork; the subtle bevels
-  and edges of the theme are tinted rather than flattened.
+- Custom colour is a plain rectangle (exact colour) sized to the panel
+  background, so the theme's subtle rounded corners/bevels are not reproduced.
 
 ## Credits
 
