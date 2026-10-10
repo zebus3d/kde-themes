@@ -13,8 +13,9 @@ the current theme colour.
   100 % (solid), adjustable live.
 - **Colour source**: *Theme colour* (untouched, uses the Plasma style) or
   *Custom colour* (tints the panel background to any RGB colour).
-- **Only visible in panel edit mode** by default, so it does not take space the
-  rest of the time. Toggle this in the widget settings.
+- **Always present in the panel**: when the slider is off the widget collapses to
+  a small, faint handle, so it is always reachable (right-click) even though it
+  is not really visible.
 - Applies **only to the panel where it is placed**.
 
 ## Install
@@ -34,17 +35,15 @@ kpackagetool6 --type Plasma/Applet --install plasmoids/org.zebus3d.paneltranspar
 
 1. Enter panel edit mode (right-click the panel → *Enter Edit Mode*).
 2. Add the widget: *Add or manage widgets…* → search for **Panel transparency**.
-   In edit mode the widget shows a small icon, not the slider, because while
-   editing the applet is dragged around and a slider there could not be used.
-3. Right-click the icon → **Show widget** to keep it visible outside edit mode.
-4. Leave edit mode: the slider is now in the panel and you can drag it to set
-   the opacity. Right-click → **Hide widget** sends it back to edit-mode only.
-5. Right-click → *Configure…* for the colour mode, custom colour and the
-   "only in edit mode" option.
+3. Right-click the widget → **Show slider** (or **Hide slider**). The widget never
+   disappears from the panel: collapsed it is just a small handle.
+4. Leave edit mode: the slider is now in the panel and you can drag it. Right-click
+   → **Hide slider** collapses it again.
+5. Right-click → *Configure…* for the colour mode and custom colour.
 
-> The opacity slider only works **outside** panel edit mode. In edit mode the
-> panel captures drags to move applets, so the widget shows an icon there and
-> the slider appears once you leave edit mode.
+> The slider only works **outside** panel edit mode: in edit mode the panel
+> captures drags to move applets, so the widget stays collapsed there and the
+> slider appears once you leave edit mode.
 
 ## How it works
 

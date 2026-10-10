@@ -31,6 +31,13 @@ Item {
             onToggled: if (full.panel) full.panel.setEnabled(checked)
         }
 
+        PlasmaComponents3.CheckBox {
+            Layout.fillWidth: true
+            text: i18n("Show the opacity slider in the panel")
+            checked: full.panel ? full.panel.cfgSliderVisible : false
+            onToggled: if (full.panel) full.panel.setSliderVisible(checked)
+        }
+
         PlasmaComponents3.Slider {
             id: opacitySlider
             Layout.fillWidth: true

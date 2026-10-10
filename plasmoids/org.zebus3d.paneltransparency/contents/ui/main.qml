@@ -13,7 +13,7 @@ PlasmoidItem {
     readonly property real cfgOpacity: Plasmoid.configuration.opacity
     readonly property string cfgColorMode: Plasmoid.configuration.colorMode
     readonly property color cfgCustomColor: Plasmoid.configuration.customColor
-    readonly property bool cfgHideWhenNotEditing: Plasmoid.configuration.hideWhenNotEditing
+    readonly property bool cfgSliderVisible: Plasmoid.configuration.sliderVisible
 
     readonly property bool editMode: {
         const containment = Plasmoid.containment;
@@ -107,6 +107,15 @@ PlasmoidItem {
         Plasmoid.configuration.enabled = v;
     }
 
+    function setSliderVisible(v) {
+        Plasmoid.configuration.sliderVisible = v;
+    }
+
+    function toggleSlider() {
+        Plasmoid.configuration.sliderVisible = !main.cfgSliderVisible;
+        Plasmoid.configuration.writeConfig();
+    }
+
     function saveConfig() {
         Plasmoid.configuration.writeConfig();
     }
@@ -127,19 +136,11 @@ PlasmoidItem {
         }
     }
 
-    // ------------------------------------------------ visibility in edit mode
-    function updateStatus() {
-        Plasmoid.status = (main.editMode || Plasmoid.userConfiguring || !main.cfgHideWhenNotEditing)
-            ? PlasmaCore.Types.ActiveStatus
-            : PlasmaCore.Types.HiddenStatus;
-    }
-
-    onEditModeChanged: updateStatus()
-    onCfgHideWhenNotEditingChanged: updateStatus()
-    Plasmoid.onUserConfiguringChanged: updateStatus()
-
+    // The widget is always present in the panel (never HiddenStatus): when the
+    // slider is off it collapses to a small handle so it can be right-clicked
+    // at any time and "feels" always there.
     Component.onCompleted: {
-        updateStatus();
+        Plasmoid.status = PlasmaCore.Types.ActiveStatus;
         Qt.callLater(apply);
     }
 
@@ -148,20 +149,17 @@ PlasmoidItem {
         ? i18n("Background opacity: %1%", Math.round(main.cfgOpacity * 100))
         : i18n("Disabled")
 
-    // Right-click action to keep the widget visible outside edit mode (so the
-    // slider can be dragged) or hide it again. In edit mode the applet is
-    // dragged around, so the slider only works once edit mode is left.
+    // Right-click action: show or hide the opacity slider. The slider is only
+    // interactive outside panel edit mode, where the panel is not capturing
+    // drags to move applets.
     PlasmaCore.Action {
-        id: visibilityAction
-        text: main.cfgHideWhenNotEditing ? i18n("Show widget") : i18n("Hide widget")
-        icon.name: main.cfgHideWhenNotEditing ? "visibility-symbolic" : "hint"
-        onTriggered: {
-            Plasmoid.configuration.hideWhenNotEditing = !main.cfgHideWhenNotEditing;
-            Plasmoid.configuration.writeConfig();
-        }
+        id: sliderAction
+        text: main.cfgSliderVisible ? i18n("Hide slider") : i18n("Show slider")
+        icon.name: main.cfgSliderVisible ? "visibility-symbolic" : "hint"
+        onTriggered: main.toggleSlider()
     }
 
-    Plasmoid.contextualActions: [visibilityAction]
+    Plasmoid.contextualActions: [sliderAction]
 
     compactRepresentation: CompactRepresentation {
         panel: main

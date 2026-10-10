@@ -8,19 +8,18 @@ Item {
 
     property var panel
 
-    // While the panel is being edited the applet is dragged around, so a
-    // slider there cannot be used. Show a plain icon instead, and the actual
-    // slider only outside edit mode (where it is interactive).
-    readonly property bool editing: panel ? panel.editMode : false
+    // The slider is only interactive outside panel edit mode (there the panel
+    // captures drags to move applets), and only when explicitly shown.
+    readonly property bool showSlider: panel ? (panel.cfgSliderVisible && !panel.editMode) : false
 
-    implicitWidth: editing ? icon.implicitWidth : slider.width
-    implicitHeight: editing ? icon.implicitHeight : slider.implicitHeight
+    implicitWidth: showSlider ? Kirigami.Units.gridUnit * 6 : Kirigami.Units.gridUnit * 0.5
+    implicitHeight: showSlider ? slider.implicitHeight : Kirigami.Units.iconSizes.small
     Layout.preferredWidth: implicitWidth
     Layout.alignment: Qt.AlignVCenter
 
     PlasmaComponents3.Slider {
         id: slider
-        visible: !root.editing
+        visible: root.showSlider
         anchors.centerIn: parent
         width: Kirigami.Units.gridUnit * 6
         from: 0
@@ -49,12 +48,15 @@ Item {
         }
     }
 
-    Kirigami.Icon {
-        id: icon
-        visible: root.editing
+    // Collapsed state: a thin, faint grip. The widget keeps its slot in the
+    // panel so it stays reachable (right-click / click) without being noticed.
+    Rectangle {
+        visible: !root.showSlider
         anchors.centerIn: parent
-        source: "preferences-desktop-color"
-        implicitWidth: Kirigami.Units.iconSizes.smallMedium
-        implicitHeight: Kirigami.Units.iconSizes.smallMedium
+        width: 2
+        height: Kirigami.Units.iconSizes.small
+        radius: 1
+        color: Kirigami.Theme.textColor
+        opacity: 0.3
     }
 }

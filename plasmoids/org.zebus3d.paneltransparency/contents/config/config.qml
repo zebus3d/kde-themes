@@ -10,7 +10,7 @@ Kirigami.ScrollablePage {
     property alias cfg_enabled: enabledBox.checked
     property alias cfg_opacity: opacitySlider.value
     property alias cfg_customColor: colorButton.color
-    property alias cfg_hideWhenNotEditing: hideBox.checked
+    property alias cfg_sliderVisible: sliderVisibleBox.checked
     property string cfg_colorMode: "theme"
 
     ColumnLayout {
@@ -46,9 +46,9 @@ Kirigami.ScrollablePage {
             }
 
             PlasmaComponents3.CheckBox {
-                id: hideBox
-                Kirigami.FormData.label: i18n("Visibility:")
-                text: i18n("Only show the widget while editing the panel")
+                id: sliderVisibleBox
+                Kirigami.FormData.label: i18n("Slider:")
+                text: i18n("Show the opacity slider in the panel")
             }
         }
 
@@ -57,7 +57,7 @@ Kirigami.ScrollablePage {
             wrapMode: Text.WordWrap
             opacity: 0.7
             font: Kirigami.Theme.smallFont
-            text: i18n("The opacity control is available directly in the panel while it is in edit mode. Changes apply to the panel this widget is placed in.")
+            text: i18n("The widget always stays in the panel; when the slider is off it collapses to a small handle. Right-click it to show or hide the slider. The slider is draggable outside panel edit mode. Changes apply to the panel this widget is placed in.")
         }
     }
 }
