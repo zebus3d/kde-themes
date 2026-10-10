@@ -13,6 +13,12 @@
     <linearGradient id="gradBtnInactive" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#303030"/>
     </linearGradient>
+    <linearGradient id="gradBtnInactiveHover" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#444444"/><stop offset="1" stop-color="#3a3a3a"/>
+    </linearGradient>
+    <linearGradient id="gradBtnInactivePressed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#242424"/>
+    </linearGradient>
     <linearGradient id="gradBtnDisabled" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#2c2c2c"/><stop offset="1" stop-color="#262626"/>
     </linearGradient>
@@ -47,12 +53,12 @@
   </g>
   <g id="inactive-center" transform="translate(48,0)">
     <rect x="0" y="0" width="16" height="16" fill="#000000"/>
-    <rect x="1" y="1" width="14" height="14" fill="url(#gradBtn)"/>
+    <rect x="1" y="1" width="14" height="14" fill="url(#gradBtnInactive)"/>
     <rect x="1" y="1" width="14" height="1" fill="#7e7e7e"/>
     <rect x="1" y="1" width="1" height="14" fill="#7e7e7e"/>
     <rect x="1" y="14" width="14" height="1" fill="#151515"/>
     <rect x="14" y="1" width="1" height="14" fill="#151515"/>
-    <rect x="3.5" y="4" width="9" height="1.8" fill="#b4b4b4"/><rect x="3.5" y="7" width="9" height="1.8" fill="#b4b4b4"/><path d="M4.5,12 L8,9.2 L11.5,12 Z" fill="#b4b4b4"/>
+    <rect x="3.5" y="4" width="9" height="1.8" fill="#8a8a8a"/><rect x="3.5" y="7" width="9" height="1.8" fill="#8a8a8a"/><path d="M4.5,12 L8,9.2 L11.5,12 Z" fill="#8a8a8a"/>
   </g>
   <g id="deactivated-center" transform="translate(64,0)">
     <rect x="0" y="0" width="16" height="16" fill="#000000"/>
@@ -65,20 +71,20 @@
   </g>
   <g id="hover-inactive-center" transform="translate(80,0)">
     <rect x="0" y="0" width="16" height="16" fill="#000000"/>
-    <rect x="1" y="1" width="14" height="14" fill="url(#gradBtnHover)"/>
+    <rect x="1" y="1" width="14" height="14" fill="url(#gradBtnInactiveHover)"/>
     <rect x="1" y="1" width="14" height="1" fill="#7e7e7e"/>
     <rect x="1" y="1" width="1" height="14" fill="#7e7e7e"/>
     <rect x="1" y="14" width="14" height="1" fill="#151515"/>
     <rect x="14" y="1" width="1" height="14" fill="#151515"/>
-    <rect x="3.5" y="4" width="9" height="1.8" fill="#d6d6d6"/><rect x="3.5" y="7" width="9" height="1.8" fill="#d6d6d6"/><path d="M4.5,12 L8,9.2 L11.5,12 Z" fill="#d6d6d6"/>
+    <rect x="3.5" y="4" width="9" height="1.8" fill="#b0b0b0"/><rect x="3.5" y="7" width="9" height="1.8" fill="#b0b0b0"/><path d="M4.5,12 L8,9.2 L11.5,12 Z" fill="#b0b0b0"/>
   </g>
   <g id="pressed-inactive-center" transform="translate(96,0)">
     <rect x="0" y="0" width="16" height="16" fill="#000000"/>
-    <rect x="1" y="1" width="14" height="14" fill="url(#gradBtnPressed)"/>
+    <rect x="1" y="1" width="14" height="14" fill="url(#gradBtnInactivePressed)"/>
     <rect x="1" y="1" width="14" height="1" fill="#7e7e7e"/>
     <rect x="1" y="1" width="1" height="14" fill="#7e7e7e"/>
     <rect x="1" y="14" width="14" height="1" fill="#151515"/>
     <rect x="14" y="1" width="1" height="14" fill="#151515"/>
-    <rect x="3.5" y="4" width="9" height="1.8" fill="#b4b4b4"/><rect x="3.5" y="7" width="9" height="1.8" fill="#b4b4b4"/><path d="M4.5,12 L8,9.2 L11.5,12 Z" fill="#b4b4b4"/>
+    <rect x="3.5" y="4" width="9" height="1.8" fill="#8a8a8a"/><rect x="3.5" y="7" width="9" height="1.8" fill="#8a8a8a"/><path d="M4.5,12 L8,9.2 L11.5,12 Z" fill="#8a8a8a"/>
   </g>
 </svg>

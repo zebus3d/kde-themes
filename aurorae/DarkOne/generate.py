@@ -6,6 +6,9 @@ Colours sampled from the original e16 artwork (artwork/border, artwork/windowbut
   frame left bevel  : #000000 / #6a6a6a / #545454 / #3a3a3a / #000000
   frame right+bottom: #000000 / #191919 / #191919 / #3a3a3a / #000000
   button raised     : #7e7e7e highlight, #545454 -> #444444, #151515 shadow, glyph #b4b4b4
+
+Inactive windows use a darker grey palette (frame, title bar and buttons) on top
+of the same geometry; the E16 original used one palette for both states.
 """
 import os
 
@@ -20,16 +23,40 @@ NAME = "DarkOne"
 # ---------------------------------------------------------------- decoration
 L, T, B, MID = 5, 22, 5, 50          # left/right, top, bottom, middle tile length
 EDGE = 2                              # grosor del canto negro bajo el titulo
-INA_TOP, INA_BOT = "#343434", "#2c2c2c"
+# Alto de la barra de titulo cuando la ventana esta maximizada. Aurorae usa
+# `max(TitleHeight, ButtonHeight*factor + ButtonMarginTop) + TitleEdge*Maximized`
+# (ver DecorationTheme::maximizedBorders), con factor 1.0 por defecto:
+# max(16, 16 + 2) = 18. Debe cuadrar con los valores del rc de abajo.
+HM = 18
+ACT_TOP, ACT_BOT = "#343434", "#2c2c2c"
+INA_TOP, INA_BOT = "#242424", "#1c1c1c"
+
+# Active and inactive windows share the geometry but not the palette: the
+# unfocused window uses a darker grey frame, title bar and buttons. (The E16
+# original actually reused the same artwork for both; this is a deliberate
+# enhancement over the original, see README.)
+FRAME_ACTIVE = dict(
+    g="gradTitle",
+    edge="#080808",
+    l1="#6a6a6a", l2="#545454", l3="#3a3a3a", l4="#1a1a1a",
+    r1="#5a5a5a", r2="#464646", r3="#333333", r4="#1a1a1a",
+)
+FRAME_INACTIVE = dict(
+    g="gradTitleInactive",
+    edge="#050505",
+    l1="#4a4a4a", l2="#3a3a3a", l3="#282828", l4="#141414",
+    r1="#3f3f3f", r2="#313131", r3="#232323", r4="#141414",
+)
 
 
 def deco_set(prefix, active, ox, oy):
     """Return the 9 decoration elements for one state, translated by (ox, oy)."""
-    g = "gradTitleInactive"
-    edge = "#080808"                       # canto inferior del titulo (casi negro, como el original)
+    P = FRAME_ACTIVE if active else FRAME_INACTIVE
+    g = P["g"]
+    edge = P["edge"]                       # canto inferior del titulo
     # bevel rings, outer -> inner.  left/top are the lit side, right/bottom the shade.
-    l1, l2, l3, l4 = "#6a6a6a", "#545454", "#3a3a3a", "#1a1a1a"
-    r1, r2, r3, r4 = "#5a5a5a", "#464646", "#333333", "#1a1a1a"
+    l1, l2, l3, l4 = P["l1"], P["l2"], P["l3"], P["l4"]
+    r1, r2, r3, r4 = P["r1"], P["r2"], P["r3"], P["r4"]
     p = f"{prefix}-"
     s = []
 
@@ -141,9 +168,36 @@ def deco_set(prefix, active, ox, oy):
     return "\n".join(s)
 
 
+def max_center_tile(prefix, P, ox, oy, w=50):
+    """Tile for the maximized frame's center.
+
+    When maximized Aurorae uses only the center element, stretched/tiled over
+    the whole window (v2/decoration.cpp disables every border). With the
+    `hint-tile-center` element present the center is *tiled* instead of
+    stretched, so a tile exactly HM px tall shows the title bar - gradient,
+    top bevel and the black edge line under it - without the line being scaled
+    away. The rows below the title bar are hidden by the window contents.
+    """
+    g = P["g"]
+    edge = P["edge"]
+    l1, l2, l3 = P["l1"], P["l2"], P["l3"]
+    return f'''    <g id="{prefix}-center" transform="translate({ox},{oy})">
+      <rect x="0" y="0" width="{w}" height="{HM}" fill="#000000"/>
+      <rect x="0" y="1" width="{w}" height="{HM-1-EDGE}" fill="url(#{g})"/>
+      <rect x="0" y="1" width="{w}" height="1" fill="{l1}"/>
+      <rect x="0" y="2" width="{w}" height="1" fill="{l2}"/>
+      <rect x="0" y="3" width="{w}" height="1" fill="{l3}"/>
+      <rect x="0" y="{HM-EDGE}" width="{w}" height="{EDGE}" fill="{edge}"/>
+    </g>'''
+
+
 DECO = f'''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="220" height="100" version="1.1">
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="100" version="1.1">
   <defs>
+    <linearGradient id="gradTitle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{ACT_TOP}"/>
+      <stop offset="1" stop-color="{ACT_BOT}"/>
+    </linearGradient>
     <linearGradient id="gradTitleInactive" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="{INA_TOP}"/>
       <stop offset="1" stop-color="{INA_BOT}"/>
@@ -154,9 +208,10 @@ DECO = f'''<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 {deco_set("decoration-inactive", False, 110, 0)}
 
-  <rect id="decoration-maximized-center"          x="200" y="55" width="5" height="5" fill="#2f2f2f"/>
-  <rect id="decoration-maximized-inactive-center" x="200" y="65" width="5" height="5" fill="#2f2f2f"/>
+{max_center_tile("decoration-maximized", FRAME_ACTIVE, 200, 55)}
+{max_center_tile("decoration-maximized-inactive", FRAME_INACTIVE, 200, 78)}
 
+  <rect id="hint-tile-center"   x="240" y="0"  width="5" height="5" fill="#ff6600"/>
   <rect id="hint-top-margin"    x="200" y="0"  width="5" height="{T}" fill="#00ff29"/>
   <rect id="hint-bottom-margin" x="200" y="25" width="5" height="{B}" fill="#00ff29"/>
   <rect id="hint-left-margin"   x="200" y="35" width="{L}" height="5" fill="#00ff29"/>
@@ -193,13 +248,13 @@ GLYPHS = {
 }
 
 STATES = [
-    ("hover",            "gradBtnHover",    "#d6d6d6"),
-    ("active",           "gradBtn",         "#b4b4b4"),
-    ("pressed",          "gradBtnPressed",  "#b4b4b4"),
-    ("inactive",         "gradBtn",         "#b4b4b4"),
-    ("deactivated",      "gradBtnDisabled", "#555555"),
-    ("hover-inactive",   "gradBtnHover",    "#d6d6d6"),
-    ("pressed-inactive", "gradBtnPressed",  "#b4b4b4"),
+    ("hover",            "gradBtnHover",           "#d6d6d6"),
+    ("active",           "gradBtn",                "#b4b4b4"),
+    ("pressed",          "gradBtnPressed",         "#b4b4b4"),
+    ("inactive",         "gradBtnInactive",        "#8a8a8a"),
+    ("deactivated",      "gradBtnDisabled",        "#555555"),
+    ("hover-inactive",   "gradBtnInactiveHover",   "#b0b0b0"),
+    ("pressed-inactive", "gradBtnInactivePressed", "#8a8a8a"),
 ]
 
 
@@ -216,6 +271,12 @@ def button_svg(kind):
     </linearGradient>
     <linearGradient id="gradBtnInactive" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#303030"/>
+    </linearGradient>
+    <linearGradient id="gradBtnInactiveHover" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#444444"/><stop offset="1" stop-color="#3a3a3a"/>
+    </linearGradient>
+    <linearGradient id="gradBtnInactivePressed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#242424"/>
     </linearGradient>
     <linearGradient id="gradBtnDisabled" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#2c2c2c"/><stop offset="1" stop-color="#262626"/>

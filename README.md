@@ -70,11 +70,14 @@ from scratch and the colors are sampled from the original E16 artwork. It is not
 a fork of Carl or Scratchy.
 
 Black 5 px frame with a bevel (lit on the left, shaded on the right and bottom)
-and mitered corners; a 22 px title bar that is the **same grey when active and
-inactive** (in the original the only focus cue is the title text color), with a
-near-black 1 px edge under it; and beveled buttons with the original glyphs,
-plus `menu`, `appmenu`, `alldesktops`, `keepabove`, `keepbelow`, `shade` and
-`help`.
+and mitered corners; a 22 px title bar with a near-black 2 px edge under it; and
+beveled buttons with the original glyphs, plus `menu`, `appmenu`, `alldesktops`,
+`keepabove`, `keepbelow`, `shade` and `help`.
+
+Unlike the E16 original, which reused the same artwork for focused and unfocused
+windows, this port gives **unfocused windows a darker grey** frame, title bar and
+buttons (the original's only focus cue was the title text colour, which is kept
+too).
 
 Three geometry traps are documented in
 [`aurorae/DarkOne/README.md`](aurorae/DarkOne/README.md): the title bar height
@@ -321,11 +324,14 @@ colores muestreados del artwork original de E16. No es un fork de Carl ni de
 Scratchy.
 
 Marco negro de 5 px con bisel (claro a la izquierda, oscuro a la derecha y
-abajo) y esquinas a inglete; barra de titulo de 22 px que es **igual de gris
-activa que inactiva** (en el original el unico indicador de foco es el color del
-texto), con un canto casi negro de 1 px debajo; y botones biselados con los
-glifos originales, mas `menu`, `appmenu`, `alldesktops`, `keepabove`,
-`keepbelow`, `shade` y `help`.
+abajo) y esquinas a inglete; barra de titulo de 22 px con un canto casi negro de
+2 px debajo; y botones biselados con los glifos originales, mas `menu`,
+`appmenu`, `alldesktops`, `keepabove`, `keepbelow`, `shade` y `help`.
+
+A diferencia del original de E16, que reutilizaba el mismo dibujo para ventanas
+con y sin foco, este port da a las **ventanas sin foco un gris mas oscuro** en
+marco, barra de titulo y botones (el original solo indicaba el foco con el color
+del texto, que aqui se mantiene tambien).
 
 Las tres trampas de geometria estan documentadas en
 [`aurorae/DarkOne/README.md`](aurorae/DarkOne/README.md): el alto de la barra lo

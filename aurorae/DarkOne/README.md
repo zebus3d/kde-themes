@@ -13,11 +13,15 @@ seguir usando en Enlightenment; esto es una re-creacion para KWin.
 
 - Marco negro de 5 px con bisel (claro a la izquierda, oscuro a la derecha y
   abajo), esquinas a inglete.
-- Barra de titulo de 22 px. **Activa e inactiva son iguales** (gris
-  `#343434 -> #2c2c2c`): en el DarkOne original el unico indicador de foco es el
-  color del texto del titulo, y aqui tambien. La barra roja `titlebar_r.png` del
-  original **no** es la barra activa: en E16 solo se usa para epplets (mirar
-  `imageclasses/borders.cfg`, donde todos los estados mapean a `titlebar.png`).
+- Barra de titulo de 22 px (activa `#343434 -> #2c2c2c`). La barra roja
+  `titlebar_r.png` del original **no** es la barra activa: en E16 solo se usa
+  para epplets (mirar `imageclasses/borders.cfg`, donde todos los estados mapean
+  a `titlebar.png`).
+- **Las ventanas sin foco usan una paleta mas oscura** (marco, barra de titulo y
+  botones). En el DarkOne original de E16 el mismo dibujo servia para ambos
+  estados y el unico indicador de foco era el color del texto del titulo; aqui se
+  mantiene ese color de texto y ademas se oscurece todo el marco. Es una
+  decision propia, no del original.
 - Canto inferior de 2 px `#080808`, casi negro, como las dos ultimas filas del
   `titlebar.png` original (`#1B1B1B` + `#0C0C0C`). La linea solo ocupa el tramo
   entre los bordes laterales: los biseles verticales de las esquinas llegan
@@ -64,12 +68,16 @@ aplicacion. Sin ninguno de los dos, esos botones muestran un icono generico.
 ## Editar el tema
 
 Los SVG y el rc se pueden tocar a mano, pero el tema se genero con
-[`generate.py`](generate.py). Cambia el diccionario `CONFIG` (paleta y
-geometria) y vuelve a generar:
+[`generate.py`](generate.py). Las paletas de foco estan en `FRAME_ACTIVE` y
+`FRAME_INACTIVE` (marco y barra de titulo) y en la lista `STATES` (botones);
+la geometria, en `L, T, B, MID`, `EDGE` y el bloque `RC`. Vuelve a generar:
 
 ```bash
 python3 generate.py    # reescribe ~/.local/share/aurorae/themes/DarkOne/
 ```
+
+Ojo: `OUT` apunta a `~/.local/share/aurorae/themes/DarkOne/`, que aqui es un
+symlink al repo, asi que regenerar edita directamente los ficheros del repo.
 
 Ya mete el acoplamiento `T = 20 + TitleEdgeBottom`, el `decoration-maximized` y
 las esquinas a inglete.
