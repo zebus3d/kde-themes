@@ -1,0 +1,22 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "zebus3d"
+            }
+        ],
+        "Category": "Utilities",
+        "Description": "Control the transparency and background color of the panel it is placed in",
+        "Description[es]": "Controla la transparencia y el color del fondo del panel donde se coloca",
+        "EnabledByDefault": false,
+        "Icon": "preferences-desktop-color",
+        "Id": "org.zebus3d.paneltransparency",
+        "License": "GPL-3.0",
+        "Name": "Panel transparency",
+        "Name[es]": "Transparencia del panel",
+        "Version": "1.0",
+        "Website": "https://github.com/zebus3d/kde-themes"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

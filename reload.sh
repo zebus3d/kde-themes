@@ -5,6 +5,7 @@
 #   ./reload.sh            reload both
 #   ./reload.sh kwin       only the window decoration
 #   ./reload.sh plasma     only the Plasma style
+#   ./reload.sh plasmoid   only the panel-transparency widget
 set -euo pipefail
 
 what="${1:-all}"
@@ -34,9 +35,19 @@ reload_plasma() {
     echo "plasma style reloaded (shell restarting)"
 }
 
+reload_plasmoid() {
+    # The widget's QML is loaded by plasmashell, so a shell restart is what
+    # picks up edits. Unlike `plasma` this leaves the theme cache alone.
+    kquitapp6 plasmashell >/dev/null 2>&1 || true
+    sleep 2
+    setsid plasmashell >/dev/null 2>&1 &
+    echo "plasmashell restarted (plasmoid reloaded)"
+}
+
 case "$what" in
-    kwin)   reload_kwin ;;
-    plasma) reload_plasma ;;
-    all)    reload_kwin; reload_plasma ;;
-    *)      echo "usage: $0 [all|kwin|plasma]" >&2; exit 1 ;;
+    kwin)     reload_kwin ;;
+    plasma)   reload_plasma ;;
+    plasmoid) reload_plasmoid ;;
+    all)      reload_kwin; reload_plasma ;;
+    *)        echo "usage: $0 [all|kwin|plasma|plasmoid]" >&2; exit 1 ;;
 esac

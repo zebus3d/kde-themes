@@ -32,6 +32,13 @@ for scheme in DarkOne.colors Zebus3d.colors; do
     echo "installed color scheme: $scheme"
 done
 
+# Panel transparency widget (plasmoid)
+dest="$HOME/.local/share/plasma/plasmoids"
+mkdir -p "$dest"
+rm -rf "${dest:?}/org.zebus3d.paneltransparency"
+cp -r "$src/plasmoids/org.zebus3d.paneltransparency" "$dest/"
+echo "installed plasmoid: org.zebus3d.paneltransparency"
+
 cat <<'MSG'
 
 Done. Now pick them in System Settings:
@@ -39,6 +46,9 @@ Done. Now pick them in System Settings:
   Colors & Themes > Window Decorations  ->  CarlSlim, ScratchySlim or DarkOne
   Colors & Themes > Plasma Style        ->  Carl-custom or DarkOne
   Colors & Themes > Colors              ->  DarkOne or Zebus3d
+
+The "Panel transparency" widget is now available too: right-click the panel,
+enter edit mode, Add widgets, search for "Panel transparency".
 
 Both KWin and Plasma cache themes in memory, so if one of these was already
 selected the change will not show up on its own:

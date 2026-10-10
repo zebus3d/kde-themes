@@ -13,6 +13,7 @@ fixed; one (**DarkOne**) is a port from Enlightenment 16.
 | `desktoptheme/DarkOne` | Plasma style | Carl-custom re-coloured to the DarkOne palette |
 | `color-schemes/DarkOne.colors` | color scheme | greys and red of the DarkOne theme |
 | `color-schemes/Zebus3d.colors` | color scheme | dark scheme with a blue focus accent |
+| `plasmoids/org.zebus3d.paneltransparency` | Plasma widget | slider for panel transparency and background colour |
 
 ## Window decorations
 
@@ -136,6 +137,18 @@ A dark color scheme to go with the Carl decorations. Window background
 `#2b2b2b`, view `#1e1e1e`, buttons `#252525`, and a muted blue focus accent
 (`#6292af`, `98,146,175`).
 
+## Panel transparency widget
+
+`plasmoids/org.zebus3d.paneltransparency` adds a continuous transparency slider
+for the panel, which Plasma does not offer natively (it only has the three fixed
+*Adaptive / Opaque / Translucent* modes). It can also replace the panel
+background colour with a custom one, or keep the current theme colour.
+
+It lives in the panel, shows up **only while the panel is in edit mode** by
+default, and affects only the panel it is placed in. Add it from *Add widgets*
+after installing; the full guide is in its
+[`README.md`](plasmoids/org.zebus3d.paneltransparency/README.md).
+
 ## Install
 
 ```bash
@@ -194,6 +207,7 @@ desktoptheme/Carl-custom      plasma style (Carl)
 desktoptheme/DarkOne          plasma style (DarkOne)
 color-schemes/DarkOne.colors  color scheme (DarkOne)
 color-schemes/Zebus3d.colors  color scheme (Carl)
+plasmoids/org.zebus3d.paneltransparency   panel transparency widget
 install.sh                    copies all of them into ~/.local/share
 reload.sh                     reloads them after an edit
 ```
@@ -211,6 +225,7 @@ file and looking at the screen tells you nothing. `reload.sh` handles both:
 ./reload.sh          # reload both
 ./reload.sh kwin     # only the window decoration
 ./reload.sh plasma   # only the Plasma style
+./reload.sh plasmoid # only the panel-transparency widget
 ```
 
 For the decoration it switches to another theme and back, which is what actually
@@ -290,6 +305,7 @@ algunas cosas arregladas; uno (**DarkOne**) es un port de Enlightenment 16.
 | `desktoptheme/DarkOne` | estilo de Plasma | Carl-custom recoloreado a la paleta DarkOne |
 | `color-schemes/DarkOne.colors` | esquema de color | grises y rojo del tema DarkOne |
 | `color-schemes/Zebus3d.colors` | esquema de color | oscuro, con acento azul |
+| `plasmoids/org.zebus3d.paneltransparency` | widget de Plasma | slider de transparencia y color del panel |
 
 ## Decoraciones de ventana
 
@@ -381,6 +397,18 @@ Un esquema oscuro que acompana a las decoraciones Carl. Fondo de ventana
 `#2b2b2b`, vista `#1e1e1e`, botones `#252525`, y un acento azul apagado
 (`#6292af`, `98,146,175`).
 
+## Widget de transparencia del panel
+
+`plasmoids/org.zebus3d.paneltransparency` anade un slider continuo de
+transparencia para el panel, algo que Plasma no trae de serie (solo tiene los
+tres modos fijos *Adaptativo / Opaco / Translucido*). Tambien puede cambiar el
+color del fondo del panel por uno propio, o mantener el del tema actual.
+
+Vive en el panel, solo se muestra **mientras el panel esta en modo edicion** por
+defecto, y afecta unicamente al panel donde se coloca. Se anade desde *Anadir
+widgets* tras instalar; la guia completa esta en su
+[`README.md`](plasmoids/org.zebus3d.paneltransparency/README.md).
+
 ## Instalacion
 
 ```bash
@@ -410,6 +438,7 @@ editar un archivo y mirar la pantalla no dice nada. `reload.sh` se encarga:
 ./reload.sh          # recarga los dos
 ./reload.sh kwin     # solo la decoracion de ventana
 ./reload.sh plasma   # solo el estilo de Plasma
+./reload.sh plasmoid # solo el widget de transparencia del panel
 ```
 
 Puedes apuntar el sistema a un clon con enlaces simbolicos, y asi editar el
