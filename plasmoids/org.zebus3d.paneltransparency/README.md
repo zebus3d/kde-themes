@@ -21,8 +21,7 @@ the current theme colour.
 ## Install
 
 ```bash
-ln -s "$PWD/plasmoids/org.zebus3d.paneltransparency" \
-      ~/.local/share/plasma/plasmoids/org.zebus3d.paneltransparency
+ln -s "~/github/kde-themes/plasmoids/org.zebus3d.paneltransparency" ~/.local/share/plasma/plasmoids/org.zebus3d.paneltransparency
 ```
 
 or copy it with:
